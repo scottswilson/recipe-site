@@ -9,6 +9,8 @@ import ListItemText from '@mui/material/ListItemText';
 
 import styled from "styled-components";
 
+import {viewStyle} from "./Styled"
+
 const SearchBox = styled(Box)`
   padding-left: 30px;
   padding-right: 30px;
@@ -23,7 +25,7 @@ function RecipeList(props) {
     setTab(1);
   };
   return (
-    <Box>
+    <Box style={viewStyle}>
       <SearchBox>
         <TextField id="standard-basic" label="Search" type="search" fullWidth />
       </SearchBox>

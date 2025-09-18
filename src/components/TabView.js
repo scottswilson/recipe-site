@@ -12,6 +12,8 @@ import RecipeList from "./RecipeList"
 import Ingredients from "./Ingredients"
 import Procedure from "./Procedure"
 
+import styled from "styled-components";
+
 
 function TabView(props) {
   const { recipes } = props;
@@ -33,30 +35,40 @@ function TabView(props) {
     setTab(newValue);
   };
 
-  return (
-      <Box>
-        <AppBar position="static">
-          <Tabs
-            value={tab}
-            onChange={onNewTab}
-            indicatorColor="secondary"
-            textColor="inherit"
-            variant="fullWidth"
-            aria-label="full width tabs example"
-            valie={tab}
-          >
-            <Tab label="Recipe List" {...a11yProps(0)} />
-            <Tab label="Ingredients" {...a11yProps(1)} />
-            <Tab label="Procedure" {...a11yProps(2)} />
-          </Tabs>
-        </AppBar>
-        <SwipeableViews index={tab} onChangeIndex={onNewTabSwipe}>
-          <RecipeList recipes={recipes} index={recipeIndex} setIndex={setRecipeIndex} setTab={setTab}/>
-          <Ingredients recipe={recipes[recipeIndex]}/>
-          <Procedure recipe={recipes[recipeIndex]}/>
-        </SwipeableViews>
+  const barStyle = {
+    maxHeight: 'calc(48px)',
+    overflow: "auto"
+  };
 
-      </Box>
+  const viewStyle = {
+    maxHeight: 'calc(100vh - 48px)',
+    overflow: "auto"
+  };
+
+  return (
+    <Box>
+      <AppBar position="static" style={barStyle}>
+        <Tabs
+          value={tab}
+          onChange={onNewTab}
+          indicatorColor="secondary"
+          textColor="inherit"
+          variant="fullWidth"
+          aria-label="full width tabs example"
+          valie={tab}
+        >
+          <Tab label="Recipe List" {...a11yProps(0)} />
+          <Tab label="Ingredients" {...a11yProps(1)} />
+          <Tab label="Procedure" {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
+      <SwipeableViews index={tab} onChangeIndex={onNewTabSwipe}>
+        <RecipeList recipes={recipes} index={recipeIndex} setIndex={setRecipeIndex} setTab={setTab} />
+        <Ingredients recipe={recipes[recipeIndex]} />
+        <Procedure recipe={recipes[recipeIndex]} />
+      </SwipeableViews>
+
+    </Box>
   );
 }
 
