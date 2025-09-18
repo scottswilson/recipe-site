@@ -12,8 +12,6 @@ import RecipeList from "./RecipeList"
 import Ingredients from "./Ingredients"
 import Procedure from "./Procedure"
 
-import styled from "styled-components";
-
 
 function TabView(props) {
   const { recipes } = props;
@@ -37,11 +35,6 @@ function TabView(props) {
 
   const barStyle = {
     maxHeight: 'calc(48px)',
-    overflow: "auto"
-  };
-
-  const viewStyle = {
-    maxHeight: 'calc(100vh - 48px)',
     overflow: "auto"
   };
 

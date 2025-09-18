@@ -1,11 +1,9 @@
-import React, { useState } from "react";
 
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import List from '@mui/material/List';
-import ListItemText from '@mui/material/ListItemText';
 
 import styled from "styled-components";
 
@@ -41,7 +39,7 @@ function Ingredients(props) {
           const isEven = i & 0x1;
           const CellType = isEven ? EvenListItem : OddListItem;
           return (
-            <CellType fullWidth>
+            <CellType fullWidth style={{padding: "2px"}}>
               <Container container>
                 <Grid item size={{ xs: 1, md: 1 }}>
                   <AmountTypography sx={{ fontWeight: "bold" }}>
