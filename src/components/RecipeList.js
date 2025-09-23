@@ -1,10 +1,12 @@
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
+
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import ImageListItemBar from '@mui/material/ImageListItemBar';
 
 import styled from "styled-components";
 
@@ -17,9 +19,38 @@ const SearchBox = styled(Box)`
   padding-bottom: 10px;
 `;
 
+const MyListButton = styled(ListItemButton)`
+  padding: 0px !important;
+  &:hover {
+    background: #bcc2e2ff;
+  }
+`;
+
+const MyImage = styled.img`
+  &:hover {
+    filter: brightness(1.25);
+  }
+`;
+
 function RecipeList(props) {
 
   const [searchText, setSearchText] = useState("");
+
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const numCols = Math.ceil(width / 150);
 
   const { recipes, index, setIndex, setTab } = props;
   const changeRecipe = (i) => {
@@ -69,17 +100,30 @@ function RecipeList(props) {
           }}
         />
       </SearchBox>
-      <List component="nav" aria-label="recipes">
-        {visibleRecipes.map(recipe => (
-          <ListItemButton
+      <ImageList cols={numCols} gap={0} style={{margin: "0px"}}>
+        {visibleRecipes.map((recipe) => (
+          <ImageListItem>
+            
+          <MyListButton
             selected={index === recipe.index}
             onClick={() => changeRecipe(recipe.index)}
+            width="100%"
           >
-            <ListItemText primary={recipe.name} />
-          </ListItemButton>
-        ))}
-      </List>
+            <MyImage
+              src={require(`../images/${recipe.image}`)}
+              alt={recipe.name}
+              loading="lazy"
+              width="100%"
+              style={{ aspectRatio: 1 }}
+            />
+            <ImageListItemBar
+              title={recipe.name}
+            />
+          </MyListButton>
 
+          </ImageListItem>
+        ))}
+      </ImageList>
     </Box>
   );
 }

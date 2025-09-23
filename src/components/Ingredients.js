@@ -33,13 +33,15 @@ function Ingredients(props) {
 
   return (
     <Box style={viewStyle}>
-      <Typography variant="h5">{recipe.name}</Typography>
+      <Typography variant="h5" style={{textAlign:"center"}}>
+        {recipe.name}
+      </Typography>
       <List component="nav" aria-label="recipes">
         {recipe.ingredients.map((ingredient, i) => {
           const isEven = i & 0x1;
           const CellType = isEven ? EvenListItem : OddListItem;
           return (
-            <CellType fullWidth style={{padding: "2px"}}>
+            <CellType fullWidth style={{ padding: "2px" }}>
               <Container container>
                 <Grid item size={{ xs: 1, md: 1 }}>
                   <AmountTypography sx={{ fontWeight: "bold" }}>

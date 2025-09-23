@@ -25,7 +25,7 @@ function App() {
           "amount": 1,
           "units": "cup",
         }, {
-          "label": "cup water",
+          "label": "water",
           "amount": 1 / 2,
           "units": "cup",
         }, {
@@ -59,6 +59,7 @@ function App() {
         "Reduce heat and simmer, uncovered, for about 15 minutes, or until most of the water has evaporated",
       ],
       'tags': ["mexican"],
+      'image': 'test.webp',
     },
     {
       "name": "Peanut Butter Curry",
@@ -163,6 +164,86 @@ function App() {
         "Serve over rice with a squeeze of lime and a sprinkle of peanuts and chopped cilantro.",
       ],
       'tags': [""],
+      'image': 'peanutbutter-curry.webp',
+    },
+    {
+      "name": "Chicken Pot Pie",
+      "servings": 4,
+      "ingredients": [
+        {
+          "label": "large chicken breast, cooked, cubed",
+          "amount": 2,
+          "units": "",
+        }, {
+          "label": "potatoes, diced",
+          "amount": 1,
+          "units": "cup",
+        }, {
+          "label": "medium carrot, sliced",
+          "amount": 1,
+          "units": "",
+        }, {
+          "label": "butter (3/4 stick)",
+          "amount": 3 / 8,
+          "units": "cup",
+        }, {
+          "label": "large onion, chopped",
+          "amount": 1 / 2,
+          "units": "",
+        }, {
+          "label": "all purpose flour",
+          "amount": 1 / 2,
+          "units": "cup",
+        }, {
+          "label": "salt",
+          "amount": 3 / 4,
+          "units": "tsp",
+        }, {
+          "label": "thyme",
+          "amount": 1,
+          "units": "tsp",
+        }, {
+          "label": "pepper",
+          "amount": 1/2,
+          "units": "tsp",
+        }, {
+          "label": "milk",
+          "amount": 3/4,
+          "units": "cup",
+        }, {
+          "label": "chicken broth",
+          "amount": 1 + 1/2,
+          "units": "cups",
+        }, {
+          "label": "frozen vegetables (corn, peas, etc.)",
+          "amount": 1,
+          "units": "cup",
+        }, {
+          "label": "sheets refrigerated pie crusts",
+          "amount": 4,
+          "units": "",
+        },
+      ],
+      "procedure": [
+        "Place potatos and sliced carrots in a medium pot, add water to cover",
+        "Bring to a boil, reduce heat, cook, covered, 8-10 minutes until crisp-tender",
+        "Drain the water",
+        "In a large pot/dutch oven, heat butter over medium-high heat",
+        "Add onion and cook until tender",
+        "Stir in flour and seasonings until blended",
+        "Very slowly, add milk while stirring constantly",
+        "Very slowly, add broth while stirring constantly",
+        "Continue stirring until well mixed and thickened",
+        "Stir in chicken, vegetables, and potato mixture",
+        "Allow vegetables to cook in the filling before removing from heat",
+        "Roll puff pastry dough out to about 30 cm x 40 cm",
+        "Add chicken pot pie mixture to half of the rolled out pastry",
+        "Fold the other half over mixture and seal edge with a fork",
+        "Brush oil over pastry and poke holes with a paring knife",
+        "Bake for 15-20 minutes or until golden brown",
+      ],
+      'tags': [""],
+      'image': 'chicken-pot-pie.webp',
     },
   ]
 

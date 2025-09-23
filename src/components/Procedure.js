@@ -11,7 +11,9 @@ function Procedure(props) {
   const { recipe } = props;
   return (
     <Box style={viewStyle}>
-      <Typography variant="h5">{recipe.name}</Typography>
+      <Typography variant="h5" style={{textAlign:"center"}}>
+        {recipe.name}
+      </Typography>
 
       <List component="nav" aria-label="recipes">
         {recipe.procedure.map((step, i) => {
