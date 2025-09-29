@@ -28,7 +28,7 @@ const MyListButton = styled(ListItemButton)`
 
 const MyImage = styled.img`
   &:hover {
-    filter: brightness(1.25);
+    filter: opacity(0.5);
   }
 `;
 
