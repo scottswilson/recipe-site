@@ -33,7 +33,7 @@ function Ingredients(props) {
 
   return (
     <Box style={viewStyle}>
-      <Typography variant="h5" style={{textAlign:"center"}}>
+      <Typography variant="h5" style={{ textAlign: "center" }}>
         {recipe.name}
       </Typography>
       <List component="nav" aria-label="recipes">
@@ -45,7 +45,19 @@ function Ingredients(props) {
               <Container container>
                 <Grid item size={{ xs: 1, md: 1 }}>
                   <AmountTypography sx={{ fontWeight: "bold" }}>
-                    {ingredient.amount}
+                    {
+                      ingredient.amount.whole > 0 ? (
+                        String(ingredient.amount.whole) + " "
+                      ) : (
+                        ""
+                      )
+                    }{
+                      ingredient.amount.num > 0 ? (
+                        ingredient.amount.num + "/" + ingredient.amount.dem
+                      ) : (
+                        ""
+                      )
+                    }
                   </AmountTypography>
                 </Grid>
                 <Grid item size={{ xs: 2, md: 1 }}>

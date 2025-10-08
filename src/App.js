@@ -10,43 +10,43 @@ function App() {
       "ingredients": [
         {
           "label": "meat, ground",
-          "amount": 2,
+          "amount": {"whole": 2, "num": 0, "dem": 1},
           "units": "lbs.",
         }, {
           "label": "large onion, chopped",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "",
         }, {
           "label": "black beans (1 can)",
-          "amount": 400,
+          "amount": {"whole": 400, "num": 0, "dem": 1},
           "units": "mL",
         }, {
           "label": "salsa",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "cup",
         }, {
           "label": "water",
-          "amount": 1 / 2,
+          "amount": {"whole": 1, "num": 0, "dem": 2},
           "units": "cup",
         }, {
           "label": "chili powder",
-          "amount": 4,
+          "amount": {"whole": 4, "num": 0, "dem": 1},
           "units": "tbsp",
         }, {
           "label": "salt",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "tsp",
         }, {
           "label": "ground cumin",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "tsp",
         }, {
           "label": "garlic powder",
-          "amount": 3 / 4,
+          "amount": {"whole": 0, "num": 3, "dem": 4},
           "units": "tsp",
         }, {
           "label": "red pepper flakes",
-          "amount": 1 / 2,
+          "amount": {"whole": 0, "num": 1, "dem": 2},
           "units": "tsp",
         }
       ],
@@ -67,91 +67,91 @@ function App() {
       "ingredients": [
         {
           "label": "kosher salt, plus more to taste",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "tbsp",
         }, {
           "label": "ground coriander",
-          "amount": 2,
+          "amount": {"whole": 2, "num": 0, "dem": 1},
           "units": "tsp",
         }, {
           "label": "ground cumin",
-          "amount": 2,
+          "amount": {"whole": 2, "num": 0, "dem": 1},
           "units": "tsp",
         }, {
           "label": "ground turmeric",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "tsp",
         }, {
           "label": "paprika",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "tsp",
         }, {
           "label": "cayenne pepper",
-          "amount": 1 / 2,
+          "amount": {"whole": 0, "num": 1, "dem": 2},
           "units": "tsp",
         }, {
           "label": "chicken thighs, diced to 2-inch pieces",
-          "amount": 5 / 2,
+          "amount": {"whole": 2, "num": 1, "dem": 2},
           "units": "lbs",
         }, {
           "label": "vegetable oil",
-          "amount": 2,
+          "amount": {"whole": 2, "num": 0, "dem": 1},
           "units": "tbsp",
         }, {
           "label": "yellow onion, chopped",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "",
         }, {
           "label": "cloves garlic, minced",
-          "amount": 6,
+          "amount": {"whole": 6, "num": 0, "dem": 1},
           "units": "",
         }, {
           "label": "finely grated fresh ginger",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "tbsp",
         }, {
           "label": "chicken broth, or to taste (originally 3.5 cup)",
-          "amount": 3,
+          "amount": {"whole": 3, "num": 0, "dem": 1},
           "units": "cup",
         }, {
           "label": "unsweetened natural peanut butter",
-          "amount": 3 / 4,
+          "amount": {"whole": 0, "num": 3, "dem": 4},
           "units": "cup",
         }, {
           "label": "ketchup",
-          "amount": 1 / 2,
+          "amount": {"whole": 0, "num": 1, "dem": 2},
           "units": "cup",
         }, {
           "label": "packed brown sugar",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "tbsp",
         }, {
           "label": "zucchini, cut into chunks",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "lbs",
         }, {
           "label": "red bell pepper, cut into chunks",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "",
         }, {
           "label": "green poblano pepper, diced",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "",
         }, {
           "label": "hot cooked rice",
-          "amount": 2,
+          "amount": {"whole": 2, "num": 0, "dem": 1},
           "units": "cup",
         }, {
           "label": "lime, for garnish",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "",
         }, {
           "label": "roasted peanuts, plus more for garnish",
-          "amount": 1 / 2,
+          "amount": {"whole": 0, "num": 1, "dem": 2},
           "units": "cup",
         }, {
           "label": "chopped fresh cilantro, for garnish",
-          "amount": 3,
+          "amount": {"whole": 3, "num": 0, "dem": 1},
           "units": "tbsp",
         },
       ],
@@ -172,55 +172,55 @@ function App() {
       "ingredients": [
         {
           "label": "large chicken breast, cooked, cubed",
-          "amount": 2,
+          "amount": {"whole": 2, "num": 0, "dem": 1},
           "units": "",
         }, {
           "label": "potatoes, diced",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "cup",
         }, {
           "label": "medium carrot, sliced",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "",
         }, {
           "label": "butter (3/4 stick)",
-          "amount": 3 / 8,
+          "amount": {"whole": 0, "num": 3, "dem": 8},
           "units": "cup",
         }, {
           "label": "large onion, chopped",
-          "amount": 1 / 2,
+          "amount": {"whole": 0, "num": 1, "dem": 2},
           "units": "",
         }, {
           "label": "all purpose flour",
-          "amount": 1 / 2,
+          "amount": {"whole": 0, "num": 1, "dem": 2},
           "units": "cup",
         }, {
           "label": "salt",
-          "amount": 3 / 4,
+          "amount": {"whole": 0, "num": 3, "dem": 4},
           "units": "tsp",
         }, {
           "label": "thyme",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "tsp",
         }, {
           "label": "pepper",
-          "amount": 1/2,
+          "amount": {"whole": 0, "num": 1, "dem": 2},
           "units": "tsp",
         }, {
           "label": "milk",
-          "amount": 3/4,
+          "amount": {"whole": 0, "num": 3, "dem": 4},
           "units": "cup",
         }, {
           "label": "chicken broth",
-          "amount": 1 + 1/2,
+          "amount": {"whole": 1, "num": 1, "dem": 2},
           "units": "cups",
         }, {
           "label": "frozen vegetables (corn, peas, etc.)",
-          "amount": 1,
+          "amount": {"whole": 1, "num": 0, "dem": 1},
           "units": "cup",
         }, {
           "label": "sheets refrigerated pie crusts",
-          "amount": 4,
+          "amount": {"whole": 4, "num": 0, "dem": 1},
           "units": "",
         },
       ],
