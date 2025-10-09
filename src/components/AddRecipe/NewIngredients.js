@@ -4,16 +4,15 @@ import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 
 import AmountPopover from "./AmountPopover";
 
 import AddIcon from '@mui/icons-material/Add';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+
+import { getEmptyIngredient } from "../Common"
 
 function IngredientRow(props) {
   const { ingredients, set, index } = props;
@@ -53,7 +52,7 @@ function IngredientRow(props) {
     <Grid item>
       <Grid container>
 
-        <Grid item size={{ xs: 4, sm: 3, md: 2 }}>
+        <Grid item size={{ xs: 2, md: 1 }}>
           <AmountPopover
             ingredients={ingredients}
             set={set}
@@ -73,7 +72,7 @@ function IngredientRow(props) {
           />
         </Grid>
 
-        <Grid item size={{ xs: 5, sm: 6, md: 7 }}>
+        <Grid item size={{ xs: 6, md: 7 }}>
           <TextField
             label="Name"
             fullWidth
@@ -85,34 +84,25 @@ function IngredientRow(props) {
           />
         </Grid>
 
-        <Grid item size={{ xs: 1 }}>
-          {deletePrimed ? (
-            <Button
-              onClick={onDelete}
-              color="error"
-              variant="contained"
-              onBlur={unprimeDelete}
-            >
-              <DeleteIcon />
-            </Button>
-          ) : (
-            <Button onClick={primeDelete}>
-              <RemoveCircleIcon />
-            </Button>
-          )}
+        <Grid item size={{ xs: 2 }} sx={{
+          justifyContent: "center",
+          alignItems: "center",
+        }} container >
+          <Button
+            onClick={deletePrimed ? onDelete : primeDelete}
+            color={deletePrimed ? "error" : "primary"}
+            variant={deletePrimed ? "contained" : "outlined"}
+            onBlur={unprimeDelete}
+            sx={{ height: "100%" }}
+            fullWidth
+          >
+            <DeleteIcon />
+          </Button>
         </Grid>
 
       </Grid>
     </Grid>
   );
-}
-
-function getEmptyIngredient() {
-  return {
-    "label": "",
-    "amount": {"whole": 1, "num": 0, "dem": 1 },
-    "units": "",
-  }
 }
 
 function NewIngredients(props) {
@@ -139,18 +129,20 @@ function NewIngredients(props) {
         })}
       </Grid>
 
-      <Grid item size={{ xs: 10 }}>
-      </Grid>
+      <Grid item size={{ xs: 1 }}/>
 
-      <Grid item size={{ xs: 1 }}>
-        <IconButton
+      <Grid item size={{ xs: 10 }}>
+        <Button
           onClick={newIngredient}
           fullWidth
-          variant="filled"
+          variant="outlined"
+          color="secondary"
         >
-          <AddIcon />
-        </IconButton>
+          <AddIcon/>
+        </Button>
       </Grid>
+
+      <Grid item size={{ xs: 1 }}/>
 
     </Grid>
   );

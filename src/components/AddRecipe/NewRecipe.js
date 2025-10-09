@@ -1,13 +1,14 @@
 import { useState } from "react";
 
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import { TextField, Button } from "@mui/material";
 
 import NewIngredients from "./NewIngredients";
 import NewProcedure from "./NewProcedure";
-import { TextField } from "@mui/material";
+import AddTags from "./AddTags";
 
+import { numericProps } from "../Common"
 
 function NewRecipe(props) {
 
@@ -23,44 +24,51 @@ function NewRecipe(props) {
     },
   ]
 
+  const [recipeName, setRecipeName] = useState("Shit Sandwich");
+  const [servings, setServings] = useState(4);
   const [ingredients, setIngredients] = useState(exampleIngredient);
-  const [procedure, setProcedure] = useState([]);
+  const [procedure, setProcedure] = useState(["eat shit", "die"]);
+  const [tags, setTags] = useState(["mexican", "salty"]);
 
   return (
-    <Grid container>
+    <Grid container spacing={2}>
       <Grid size={{ xs: 12 }} >
         <Typography variant="h5" style={{ textAlign: "center" }}>
           New Recipe
         </Typography>
       </Grid>
-      <Grid size={{ xs: 12 }} >
+      <Grid size={{ xs: 2 }} />
+      <Grid size={{ xs: 8 }} spacing={1} container>
         <TextField
           label="Recipe Name"
           fullWidth
           variant="filled"
+          value={recipeName}
+          onChange={e => setRecipeName(e.target.value)}
         />
         <TextField
           label="Servings"
           fullWidth
           variant="filled"
-          type="number"
+          slotProps={numericProps}
+          value={servings}
+          onChange={e => setServings(e.target.value)}
         />
       </Grid>
-      <Paper size={{ xs: 12 }} >
+      <Grid size={{ xs: 2 }} />
+      <Grid size={{ xs: 12 }} >
         <Typography variant="h5" style={{ textAlign: "center" }}>
           Ingredients
         </Typography>
         <NewIngredients
           ingredients={ingredients}
           setIngredients={setIngredients}
-          />
-        </Paper>
+        />
+      </Grid>
       <Grid size={{ xs: 12 }} >
         <Typography variant="h5" style={{ textAlign: "center" }}>
           Procedure
         </Typography>
-      </Grid>
-      <Grid size={{ xs: 12 }} >
         <NewProcedure
           procedure={procedure}
           setProcedure={setProcedure}
@@ -70,20 +78,24 @@ function NewRecipe(props) {
         <Typography variant="h5" style={{ textAlign: "center" }}>
           Tags
         </Typography>
-      </Grid>
-      <Grid size={{ xs: 12 }} >
-        <NewProcedure
-          procedure={procedure}
-          setProcedure={setProcedure}
+        <AddTags
+          tags={tags}
+          setTags={setTags}
         />
       </Grid>
       <Grid size={{ xs: 12 }} >
         <Typography variant="h5" style={{ textAlign: "center" }}>
           Image
         </Typography>
+        <Button variant="contained" color="primary" component="label">
+          Upload File
+          <input type="file" hidden />
+        </Button>
       </Grid>
       <Grid size={{ xs: 12 }} >
-        <input type="file" onChange={() => {}} />
+        <Button variant="contained" color="success" fullWidth>
+          Add Recipe
+        </Button>
       </Grid>
     </Grid>
   );

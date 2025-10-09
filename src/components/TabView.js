@@ -11,7 +11,7 @@ import SwipeableViews from 'react-swipeable-views';
 import RecipeList from "./RecipeList"
 import Ingredients from "./Ingredients"
 import Procedure from "./Procedure"
-import NewRecipe from "./NewRecipe"
+import NewRecipe from "./AddRecipe/NewRecipe"
 
 
 function TabView(props) {

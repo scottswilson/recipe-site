@@ -13,11 +13,25 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
+import { numericProps } from "../Common"
+
 import styled from "styled-components";
 
 const CenteredTextField = styled(TextField)`
+  border: 0px;
+  margin: 5px;
+  div {
+    border: 0px;
+    padding: 5px;
+  }
   input {
     text-align: center;
+    border: 0px;
+    padding:0px;
+    margin: 0px;
+  }
+  fieldset {
+    // border: 0px;
   }
 `;
 
@@ -39,6 +53,12 @@ function AmountPopover(props) {
     }
   };
 
+  const setWhole = (text) => {
+    let newIngreds = ingredients.slice();
+    newIngreds[index].amount.whole = text.replaceAll(/[^0-9]/g, "");
+    set(newIngreds);
+  };
+
   const incNumerator = () => {
     let newIngreds = ingredients.slice();
     newIngreds[index].amount.num++;
@@ -51,6 +71,12 @@ function AmountPopover(props) {
       newIngreds[index].amount.num--;
       set(newIngreds);
     }
+  };
+
+  const setNum = (text) => {
+    let newIngreds = ingredients.slice();
+    newIngreds[index].amount.num = text.replaceAll(/[^0-9]/g, "");
+    set(newIngreds);
   };
 
   const incDenominator = () => {
@@ -69,6 +95,13 @@ function AmountPopover(props) {
     }
   };
 
+  const setDem = (text) => {
+    let newIngreds = ingredients.slice();
+    newIngreds[index].amount.dem = text.replaceAll(/[^0-9]/g, "");
+    set(newIngreds);
+  };
+
+
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {
@@ -83,12 +116,15 @@ function AmountPopover(props) {
 
   const ingredient = ingredients[index];
 
+
   return (
     <>
       <Button
-        variant=""
+        variant="outlined"
         onClick={handleClick}
         fullWidth
+        sx={{ height: '100%', padding: "5px"}}
+        color="primary"
       >
         <Typography sx={{ fontWeight: "bold" }}>
           {
@@ -113,22 +149,16 @@ function AmountPopover(props) {
         onClose={handleClose}
         anchorOrigin={{
           vertical: 'center',
-          horizontal: 'center',
+          horizontal: 'right',
         }}
         transformOrigin={{
           vertical: 'center',
           horizontal: 'left',
         }}
       >
-        <Grid container>
-          <Grid item size={{ xs: 4 }} sx={{
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}>
-            <Grid container direction="column" sx={{
-              justifyContent: "flex-end",
-              alignItems: "center",
-            }}>
+        <Grid container style={{ width: "250px" }}>
+          <Grid item size={{ xs: 4 }}>
+            <Grid container direction="column">
               <Button
                 variant=""
                 onClick={incWhole}
@@ -137,8 +167,8 @@ function AmountPopover(props) {
               </Button>
               <CenteredTextField
                 value={ingredient.amount.whole}
-                style={{ width: "100px" }}
-                textAlign={'center'}
+                onChange={(e) => setWhole(e.target.value)}
+                slotProps={numericProps}
               />
               <Button
                 variant=""
@@ -148,66 +178,58 @@ function AmountPopover(props) {
               </Button>
             </Grid>
           </Grid>
-          <Grid item size={{ xs: 8 }}>
-            <Grid container direction="column">
-              <Grid item size={{ xs: 12 }}>
+          <Grid item size={{ xs: 8 }} sx={{
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }} container direction="row">
 
-                <Grid container direction="row">
-                  <Grid item size={{ xs: 4 }}>
-                    <Button
-                      variant=""
-                      onClick={decNumerator}
-                    >
-                      <KeyboardArrowLeftIcon />
-                    </Button>
-                  </Grid>
-                  <Grid item size={{ xs: 4 }}>
-                    <CenteredTextField
-                      size="small"
-                      value={ingredient.amount.num}
-                      style={{ width: "100px" }}
-                      textAlign={'center'}
-                    />
-                  </Grid>
+            <Grid item size={{ xs: 5 }}>
+              <Button
+                variant=""
+                onClick={decNumerator}
+              >
+                <KeyboardArrowLeftIcon />
+              </Button>
+            </Grid>
+            <Grid item size={{ xs: 2 }}>
+              <CenteredTextField
+                value={ingredient.amount.num}
+                onChange={(e) => setNum(e.target.value)}
+                slotProps={numericProps}
+              />
+            </Grid>
 
-                  <Grid item size={{ xs: 4 }}>
-                    <Button
-                      variant=""
-                      onClick={incNumerator}
-                    >
-                      <KeyboardArrowRightIcon />
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item size={{ xs: 12 }}>
-                <Grid container direction="row">
-                  <Grid item size={{ xs: 4 }}>
-                    <Button
-                      variant=""
-                      onClick={decDenominator}
-                    >
-                      <KeyboardArrowLeftIcon />
-                    </Button>
-                  </Grid>
-                  <Grid item size={{ xs: 4 }}>
-                    <CenteredTextField
-                      size="small"
-                      value={ingredient.amount.dem}
-                      style={{ width: "100px" }}
-                    />
-                  </Grid>
+            <Grid item size={{ xs: 5 }}>
+              <Button
+                variant=""
+                onClick={incNumerator}
+              >
+                <KeyboardArrowRightIcon />
+              </Button>
+            </Grid>
+            <Grid item size={{ xs: 5 }}>
+              <Button
+                variant=""
+                onClick={decDenominator}
+              >
+                <KeyboardArrowLeftIcon />
+              </Button>
+            </Grid>
+            <Grid item size={{ xs: 2 }}>
+              <CenteredTextField
+                value={ingredient.amount.dem}
+                onChange={(e) => setDem(e.target.value)}
+                slotProps={numericProps}
+              />
+            </Grid>
 
-                  <Grid item size={{ xs: 4 }}>
-                    <Button
-                      variant=""
-                      onClick={incDenominator}
-                    >
-                      <KeyboardArrowRightIcon />
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Grid>
+            <Grid item size={{ xs: 5 }}>
+              <Button
+                variant=""
+                onClick={incDenominator}
+              >
+                <KeyboardArrowRightIcon />
+              </Button>
             </Grid>
           </Grid>
         </Grid>

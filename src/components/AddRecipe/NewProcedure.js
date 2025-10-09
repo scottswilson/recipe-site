@@ -39,7 +39,7 @@ function ProcedureRow(props) {
   return (
     <Grid item>
       <Grid container>
-        <Grid item size={{ xs: 11 }}>
+        <Grid item size={{ xs: 10 }}>
           <TextField
             label={"Step " + index}
             fullWidth
@@ -51,21 +51,20 @@ function ProcedureRow(props) {
             }}
           />
         </Grid>
-        <Grid item size={{ xs: 1 }}>
-          {deletePrimed ? (
-            <Button 
-              onClick={onDelete} 
-              color="error" 
-              variant="contained"
-              onBlur={unprimeDelete}
-              >
-              <DeleteIcon />
-            </Button>
-          ) : (
-            <Button onClick={primeDelete}>
-              <RemoveCircleIcon />
-            </Button>
-          )}
+        <Grid item size={{ xs: 2 }} sx={{
+            justifyContent: "center",
+            alignItems: "center",
+          }} container >
+          <Button
+            onClick={deletePrimed ? onDelete : primeDelete}
+            color={deletePrimed ? "error" : "primary"}
+            variant={deletePrimed ? "contained" : "outlined"}
+            onBlur={unprimeDelete}
+            sx={{ height: "100%" }}
+            fullWidth
+          >
+            <DeleteIcon />
+          </Button>
         </Grid>
 
       </Grid>
@@ -101,19 +100,20 @@ function NewProcedure(props) {
         })}
       </Grid>
 
-      <Grid item size={{ xs: 10 }}>
-      </Grid>
+      <Grid item size={{ xs: 1 }}/>
 
-      <Grid item size={{ xs: 1 }}>
-        <IconButton
+      <Grid item size={{ xs: 10 }}>
+        <Button
           onClick={newStep}
           fullWidth
-          variant="filled"
+          variant="outlined"
+          color="secondary"
         >
           <AddIcon/>
-        </IconButton>
+        </Button>
       </Grid>
 
+      <Grid item size={{ xs: 1 }}/>
     </Grid>
   );
 }
