@@ -5,39 +5,62 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { TextField, Button } from "@mui/material";
 
-import NewIngredients from "./NewIngredients";
-import NewProcedure from "./NewProcedure";
+import EditIngredients from "./EditIngredients";
+import EditProcedure from "./EditProcedure";
+import ImageCropUpload from "./ImageCropUpload";
 import AddTags from "./AddTags";
+import DeleteRecipe from "./DeleteRecipe";
 
 import { numericProps } from "../Common"
+import styled from "styled-components";
+import CopyRecipe from "./CopyRecipe";
 
-function NewRecipe(props) {
 
-  const exampleIngredient = [
-    {
-      "label": "meat, ground",
-      "amount": { "whole": 2, "num": 0, "dem": 1 },
-      "units": "lbs.",
-    }, {
-      "label": "large onion, chopped",
-      "amount": { "whole": 0, "num": 1, "dem": 2 },
-      "units": "",
-    },
-  ]
+export const RecipePaper = styled(Paper)`
+  background: white;
+  padding: 5px;
+`;
 
-  const [recipeName, setRecipeName] = useState("Shit Sandwich");
-  const [servings, setServings] = useState(4);
-  const [ingredients, setIngredients] = useState(exampleIngredient);
-  const [procedure, setProcedure] = useState(["eat shit", "die"]);
-  const [tags, setTags] = useState(["sweet", "salty", "single pot", "excrement"]);
+function EditRecipe(props) {
+
+  const { setTab } = props;
+  const currentRecipe = {
+    "id": "283e161c-6268-430d-8e22-8d611327dad7",
+    "name": "Shit Sandwich",
+    "servings": 10,
+    "ingredients": [
+      {
+        "label": "meat, ground",
+        "amount": { "whole": 2, "num": 0, "dem": 1 },
+        "units": "lbs.",
+      }, {
+        "label": "large onion, chopped",
+        "amount": { "whole": 0, "num": 1, "dem": 2 },
+        "units": "",
+      },
+    ],
+    "procedure": ["eat shit", "die"],
+    'tags': ["sweet", "salty", "single pot", "excrement"],
+    'image': 'test.webp'
+  };
+
+  const [recipeName, setRecipeName] = useState(currentRecipe.name);
+  const [servings, setServings] = useState(currentRecipe.servings);
+  const [ingredients, setIngredients] = useState(currentRecipe.ingredients);
+  const [procedure, setProcedure] = useState(currentRecipe.procedure);
+  const [tags, setTags] = useState(currentRecipe.tags);
+
+  const goToRecipeList = () => {
+    setTab(0);
+  }
 
   return (
     <Grid container spacing={1} padding={0.5} backgroundColor="#CCC" height="100%" alignContent="flex-start">
       <Grid size={{ xs: 12 }} />
       <Grid size={{ xs: 2 }} />
       <Grid size={{ xs: 8 }}>
-        <Paper backgroundColor="white" style={{ padding: "5px" }}>
-          <Grid spacing={1} container>
+        <Paper backgroundColor="white" style={{ padding: "15px" }}>
+          <Grid spacing={2} container>
             <TextField
               label="Recipe Name"
               fullWidth
@@ -59,29 +82,29 @@ function NewRecipe(props) {
       </Grid>
       <Grid size={{ xs: 2 }} />
       <Grid size={{ xs: 12 }} >
-        <Paper backgroundColor="white" style={{ padding: "5px" }}>
+        <RecipePaper style={{ padding: "5px" }}>
           <Typography variant="h5" style={{ textAlign: "center" }}>
             Ingredients
           </Typography>
-          <NewIngredients
+          <EditIngredients
             ingredients={ingredients}
             setIngredients={setIngredients}
           />
-        </Paper>
+        </RecipePaper>
       </Grid>
       <Grid size={{ xs: 12 }} >
-        <Paper backgroundColor="white" style={{ padding: "5px" }}>
+        <RecipePaper>
           <Typography variant="h5" style={{ textAlign: "center" }}>
             Procedure
           </Typography>
-          <NewProcedure
+          <EditProcedure
             procedure={procedure}
             setProcedure={setProcedure}
           />
-        </Paper>
+        </RecipePaper>
       </Grid>
       <Grid size={{ xs: 12 }} >
-        <Paper backgroundColor="white" style={{ padding: "5px" }}>
+        <RecipePaper>
           <Typography variant="h5" style={{ textAlign: "center" }}>
             Tags
           </Typography>
@@ -89,40 +112,38 @@ function NewRecipe(props) {
             tags={tags}
             setTags={setTags}
           />
-        </Paper>
+        </RecipePaper>
       </Grid>
       <Grid size={{ xs: 12 }} >
-        <Paper backgroundColor="white" style={{ padding: "5px" }}>
+        <RecipePaper>
           <Typography variant="h5" style={{ textAlign: "center" }}>
             Image
           </Typography>
-          <Button variant="contained" color="primary" component="label">
-            Upload File
-            <input type="file" hidden />
-          </Button>
-        </Paper>
+          <ImageCropUpload />
+        </RecipePaper>
       </Grid>
       <Grid size={{ xs: 12 }} >
-        <Paper backgroundColor="white" style={{ padding: "5px" }}>
+        <RecipePaper>
           <Grid container spacing={1}>
             <Grid item size={6}>
-              <Button variant="contained" color="success" fullWidth>
-                Make Copy
-              </Button>
-
+              <CopyRecipe
+                id={currentRecipe.id}
+                currentName={currentRecipe.name}
+                onCopy={goToRecipeList}
+              />
             </Grid>
             <Grid item size={6}>
-
-              <Button variant="contained" color="error" fullWidth>
-                Delete
-              </Button>
+              <DeleteRecipe
+                id={currentRecipe.id}
+                onDelete={goToRecipeList}
+              />
             </Grid>
           </Grid>
-        </Paper>
+        </RecipePaper>
       </Grid>
       <Grid size={{ xs: 12 }} />
     </Grid>
   );
 }
 
-export default NewRecipe;
+export default EditRecipe;

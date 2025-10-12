@@ -11,7 +11,7 @@ import SwipeableViews from 'react-swipeable-views';
 import RecipeList from "./RecipeList"
 import Ingredients from "./Ingredients"
 import Procedure from "./Procedure"
-import NewRecipe from "./AddRecipe/NewRecipe"
+import EditRecipe from "./EditRecipe/EditRecipe"
 
 
 function TabView(props) {
@@ -51,17 +51,17 @@ function TabView(props) {
           aria-label="full width tabs example"
           valie={tab}
         >
-          <Tab label="Recipe List" {...a11yProps(0)} />
+          <Tab label="Recipes" {...a11yProps(0)} />
           <Tab label="Ingredients" {...a11yProps(1)} />
-          <Tab label="Procedure" {...a11yProps(2)} />
-          <Tab label="New" {...a11yProps(3)} />
+          <Tab label="Steps" {...a11yProps(2)} />
+          <Tab label="Edit" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
       <SwipeableViews index={tab} onChangeIndex={onNewTabSwipe}>
         <RecipeList recipes={recipes} index={recipeIndex} setIndex={setRecipeIndex} setTab={setTab} />
         <Ingredients recipe={recipes[recipeIndex]} />
         <Procedure recipe={recipes[recipeIndex]} />
-        <NewRecipe/>
+        <EditRecipe setTab={setTab}/>
       </SwipeableViews>
 
     </Box>

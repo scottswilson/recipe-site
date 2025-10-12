@@ -30,6 +30,7 @@ const CenteredTextField = styled(TextField)`
     border: 0px;
     padding:0px;
     margin: 0px;
+    height: 26px;
   }
   fieldset {
     // border: 0px;
@@ -123,7 +124,7 @@ function AmountPopover(props) {
       <GoodButton
         variant="outlined"
         onClick={handleClick}
-        sx={{ height: '100%', padding: "5px"}}
+        sx={{ height: '100%', padding: "5px" }}
         color="primary"
       >
         <Typography sx={{ fontWeight: "bold" }}>
@@ -155,12 +156,15 @@ function AmountPopover(props) {
           horizontal: 'left',
         }}
       >
-        <Grid container style={{ width: "250px" }}>
-          <Grid item size={{ xs: 4 }}>
+        <Grid container style={{ width: "300px" }} spacing={1} padding={1}>
+          <Grid item size={{ xs: 4 }} container direction="column" sx={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
             <Grid container direction="column">
               <Button
-                variant=""
                 onClick={incWhole}
+                variant="outlined"
               >
                 <KeyboardArrowUpIcon />
               </Button>
@@ -170,69 +174,65 @@ function AmountPopover(props) {
                 slotProps={numericProps}
               />
               <Button
-                variant=""
                 onClick={decWhole}
+                variant="outlined"
               >
                 <KeyboardArrowDownIcon />
               </Button>
             </Grid>
           </Grid>
-          <Grid item size={{ xs: 8 }} sx={{
-            justifyContent: "flex-end",
+          <Grid item size={{ xs: 3 }} container direction="column" sx={{
+            justifyContent: "center",
             alignItems: "center",
-          }} container direction="row">
+          }}>
+            <Button
+              onClick={decNumerator}
+              variant="outlined"
+            >
+              <KeyboardArrowLeftIcon />
+            </Button>
+            <Button
+              onClick={decDenominator}
+              variant="outlined"
 
-            <Grid item size={{ xs: 5 }}>
-              <Button
-                variant=""
-                onClick={decNumerator}
-              >
-                <KeyboardArrowLeftIcon />
-              </Button>
-            </Grid>
-            <Grid item size={{ xs: 2 }}>
-              <CenteredTextField
-                value={ingredient.amount.num}
-                onChange={(e) => setNum(e.target.value)}
-                slotProps={numericProps}
-              />
-            </Grid>
-
-            <Grid item size={{ xs: 5 }}>
-              <Button
-                variant=""
-                onClick={incNumerator}
-              >
-                <KeyboardArrowRightIcon />
-              </Button>
-            </Grid>
-            <Grid item size={{ xs: 5 }}>
-              <Button
-                variant=""
-                onClick={decDenominator}
-              >
-                <KeyboardArrowLeftIcon />
-              </Button>
-            </Grid>
-            <Grid item size={{ xs: 2 }}>
-              <CenteredTextField
-                value={ingredient.amount.dem}
-                onChange={(e) => setDem(e.target.value)}
-                slotProps={numericProps}
-              />
-            </Grid>
-
-            <Grid item size={{ xs: 5 }}>
-              <Button
-                variant=""
-                onClick={incDenominator}
-              >
-                <KeyboardArrowRightIcon />
-              </Button>
-            </Grid>
+            >
+              <KeyboardArrowLeftIcon />
+            </Button>
+          </Grid>
+          <Grid item size={{ xs: 2 }} container direction="column" sx={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
+            <CenteredTextField
+              value={ingredient.amount.num}
+              onChange={(e) => setNum(e.target.value)}
+              slotProps={numericProps}
+            />
+            <CenteredTextField
+              value={ingredient.amount.dem}
+              onChange={(e) => setDem(e.target.value)}
+              slotProps={numericProps}
+            />
+          </Grid>
+          <Grid item size={{ xs: 3 }} container direction="column" sx={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
+            <Button
+              onClick={incNumerator}
+              variant="outlined"
+            >
+              <KeyboardArrowRightIcon />
+            </Button>
+            <Button
+              onClick={incDenominator}
+              variant="outlined"
+            >
+              <KeyboardArrowRightIcon />
+            </Button>
           </Grid>
         </Grid>
-      </Popover >
+      </Popover>
     </>
   );
 }

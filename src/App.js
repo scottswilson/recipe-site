@@ -5,6 +5,7 @@ function App() {
 
   const recipes = [
     {
+      "id": "283e161c-6268-430d-8e22-8d611327dad7",
       "name": "Tacos",
       "servings": 10,
       "ingredients": [
@@ -62,6 +63,7 @@ function App() {
       'image': 'test.webp',
     },
     {
+      "id": "e1a99866-594b-4975-8661-4f488fce561a",
       "name": "Peanut Butter Curry",
       "servings": 10,
       "ingredients": [
@@ -167,6 +169,7 @@ function App() {
       'image': 'peanutbutter-curry.webp',
     },
     {
+      "id": "a6432ecb-480c-445f-bd25-db86188cb935",
       "name": "Chicken Pot Pie",
       "servings": 4,
       "ingredients": [

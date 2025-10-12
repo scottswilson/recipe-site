@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import ClearIcon from '@mui/icons-material/Clear';
-import AddIcon from '@mui/icons-material/Add';
+import CheckIcon from '@mui/icons-material/Check';
 
 
 function NewProcedure(props) {
@@ -14,8 +14,10 @@ function NewProcedure(props) {
   const [text, setText] = useState("");
 
   const newTag = (tag) => {
-    let newTags = tags.concat([tag]);
-    setTags(newTags);
+    if (tag.length > 0) {
+      let newTags = tags.concat([tag]);
+      setTags(newTags);
+    }
   }
 
   const onTagChange = (newText) => {
@@ -32,6 +34,11 @@ function NewProcedure(props) {
     })
 
     setText(newText.replaceAll(/[^0-9a-zA-Z ]/g, ""));
+  };
+
+  const onAccept = () => {
+    newTag(text);
+    setText("");
   };
 
   const deleteTag = (i) => {
@@ -76,12 +83,12 @@ function NewProcedure(props) {
 
       <Grid item size={{ xs: 2 }}>
         <Button
-          onChange={(e) => onTagChange(e.target.value)}
+          onClick={onAccept}
           variant="outlined"
           fullWidth
           sx={{ height: "100%" }}
         >
-          <AddIcon/>
+          <CheckIcon/>
         </Button>
       </Grid>
       
