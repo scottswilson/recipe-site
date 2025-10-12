@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 
 import AddIcon from '@mui/icons-material/Add';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
+
+import { GoodButton, listSlotProps } from "../Styled"
 
 function ProcedureRow(props) {
   const { procedure, set, index } = props;
@@ -46,25 +46,25 @@ function ProcedureRow(props) {
             multiline
             variant="filled"
             value={procedure[index]}
+            slotProps={listSlotProps}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               updateStep(event.target.value);
             }}
           />
         </Grid>
         <Grid item size={{ xs: 2 }} sx={{
-            justifyContent: "center",
-            alignItems: "center",
-          }} container >
-          <Button
+          justifyContent: "center",
+          alignItems: "center",
+        }} container >
+          <GoodButton
             onClick={deletePrimed ? onDelete : primeDelete}
             color={deletePrimed ? "error" : "primary"}
             variant={deletePrimed ? "contained" : "outlined"}
             onBlur={unprimeDelete}
             sx={{ height: "100%" }}
-            fullWidth
           >
             <DeleteIcon />
-          </Button>
+          </GoodButton>
         </Grid>
 
       </Grid>
@@ -78,7 +78,7 @@ function getEmptyProcedure() {
 
 function NewProcedure(props) {
 
-  const {procedure, setProcedure} = props;
+  const { procedure, setProcedure } = props;
 
   const newStep = () => {
     let newProcedure = procedure.concat([getEmptyProcedure()]);
@@ -100,20 +100,17 @@ function NewProcedure(props) {
         })}
       </Grid>
 
-      <Grid item size={{ xs: 1 }}/>
-
-      <Grid item size={{ xs: 10 }}>
+      <Grid item size={{ xs: 12 }}>
         <Button
           onClick={newStep}
           fullWidth
           variant="outlined"
-          color="secondary"
+          color="primary"
         >
-          <AddIcon/>
+          <AddIcon />
         </Button>
       </Grid>
 
-      <Grid item size={{ xs: 1 }}/>
     </Grid>
   );
 }

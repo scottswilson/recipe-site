@@ -14,6 +14,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { numericProps } from "../Common"
+import { GoodButton } from "../Styled"
 
 import styled from "styled-components";
 
@@ -119,10 +120,9 @@ function AmountPopover(props) {
 
   return (
     <>
-      <Button
+      <GoodButton
         variant="outlined"
         onClick={handleClick}
-        fullWidth
         sx={{ height: '100%', padding: "5px"}}
         color="primary"
       >
@@ -141,9 +141,8 @@ function AmountPopover(props) {
             )
           }
         </Typography>
-      </Button>
+      </GoodButton>
       <Popover
-        // id={id}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}

@@ -1,8 +1,11 @@
 import { useState } from "react";
 
+import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
+import ClearIcon from '@mui/icons-material/Clear';
+import AddIcon from '@mui/icons-material/Add';
 
 
 function NewProcedure(props) {
@@ -17,7 +20,7 @@ function NewProcedure(props) {
 
   const onTagChange = (newText) => {
     const delimiters = [
-      " ", "\n", ","
+      "\n", ","
     ]
 
     delimiters.forEach(delim => {
@@ -28,7 +31,7 @@ function NewProcedure(props) {
       }
     })
 
-    setText(newText.replaceAll(/[^0-9a-zA-Z]/g, ""));
+    setText(newText.replaceAll(/[^0-9a-zA-Z ]/g, ""));
   };
 
   const deleteTag = (i) => {
@@ -38,12 +41,12 @@ function NewProcedure(props) {
   };
 
   return (
-    <Grid container>
+    <Grid container spacing={1}>
 
       <Grid item size={{ xs: 12 }} sx={{
         justifyContent: "center",
         alignItems: "center",
-      }} container>
+      }} container spacing={1}>
         {tags.map((tag, i) => {
           return (
             <Chip
@@ -51,25 +54,38 @@ function NewProcedure(props) {
               onClick={() => { deleteTag(i) }}
               variant="contained"
               color="primary"
-            />
+              icon={<ClearIcon fontSize="small" />}
+            >
+            </Chip>
           );
         })}
       </Grid>
 
-      <Grid item size={{ xs: 2 }} />
+      <Grid item size={{ xs: 1 }} />
 
       <Grid item size={{ xs: 8 }}>
         <TextField
           label="New Tag"
           value={text}
           onChange={(e) => onTagChange(e.target.value)}
-          variant="filled"
+          variant="outlined"
           multiline
           fullWidth
         />
       </Grid>
 
-      <Grid item size={{ xs: 2 }} />
+      <Grid item size={{ xs: 2 }}>
+        <Button
+          onChange={(e) => onTagChange(e.target.value)}
+          variant="outlined"
+          fullWidth
+          sx={{ height: "100%" }}
+        >
+          <AddIcon/>
+        </Button>
+      </Grid>
+      
+      <Grid item size={{ xs: 1 }} />
 
     </Grid>
   );

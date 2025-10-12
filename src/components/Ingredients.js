@@ -41,7 +41,7 @@ function Ingredients(props) {
           const isEven = i & 0x1;
           const CellType = isEven ? EvenListItem : OddListItem;
           return (
-            <CellType fullWidth style={{ padding: "2px" }}>
+            <CellType style={{ padding: "2px" }}>
               <Container container>
                 <Grid item size={{ xs: 1, md: 1 }}>
                   <AmountTypography sx={{ fontWeight: "bold" }}>

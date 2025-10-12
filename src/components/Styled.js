@@ -1,4 +1,4 @@
-import ListItem from '@mui/material/ListItem';
+import { ListItem, Button } from '@mui/material';
 import styled from "styled-components";
 
 
@@ -21,3 +21,18 @@ export const OddListItem = styled(EvenListItem)`
     background: #d2d9ffff;
   }
 `;
+
+export const GoodButton = styled(Button)`
+  min-width: 0px !important;
+  padding: 0px !important;
+  width: 100%;
+`;
+
+export const listSlotProps = {
+  input: {
+    style: { fontSize: 15 }
+  },
+  inputLabel: {
+    style: { fontSize: 15 }
+  }
+};

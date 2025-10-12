@@ -12,6 +12,7 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
+import { GoodButton, listSlotProps } from "../Styled"
 import { getEmptyIngredient } from "../Common"
 
 function IngredientRow(props) {
@@ -66,6 +67,7 @@ function IngredientRow(props) {
             fullWidth
             variant="filled"
             value={ingredient.units}
+            slotProps={listSlotProps}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               updateUnits(event.target.value);
             }}
@@ -77,6 +79,7 @@ function IngredientRow(props) {
             label="Name"
             fullWidth
             variant="filled"
+            slotProps={listSlotProps}
             value={ingredient.label}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
               updateLabel(event.target.value);
@@ -88,16 +91,15 @@ function IngredientRow(props) {
           justifyContent: "center",
           alignItems: "center",
         }} container >
-          <Button
+          <GoodButton
             onClick={deletePrimed ? onDelete : primeDelete}
             color={deletePrimed ? "error" : "primary"}
             variant={deletePrimed ? "contained" : "outlined"}
             onBlur={unprimeDelete}
             sx={{ height: "100%" }}
-            fullWidth
           >
             <DeleteIcon />
-          </Button>
+          </GoodButton>
         </Grid>
 
       </Grid>
@@ -129,20 +131,16 @@ function NewIngredients(props) {
         })}
       </Grid>
 
-      <Grid item size={{ xs: 1 }}/>
-
-      <Grid item size={{ xs: 10 }}>
+      <Grid item size={{ xs: 12 }}>
         <Button
           onClick={newIngredient}
           fullWidth
           variant="outlined"
-          color="secondary"
+          color="primary"
         >
-          <AddIcon/>
+          <AddIcon />
         </Button>
       </Grid>
-
-      <Grid item size={{ xs: 1 }}/>
 
     </Grid>
   );
