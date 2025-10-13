@@ -35,7 +35,13 @@ const MyListButton = styled(ListItemButton)`
 
   &.Mui-selected div.MuiImageListItemBar-root {
     background-color: #ffffffda;
-    height: 40%;
+    height: 35%;
+  }
+
+  div.MuiImageListItemBar-titleWrap {
+    padding: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
   }
 
   &.Mui-selected div.MuiImageListItemBar-subtitle {
