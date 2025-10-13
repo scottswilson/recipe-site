@@ -3,6 +3,7 @@
 # dependencies
 */.env
 */.env.production
+*.db
 /node_modules
 */node_modules
 /.pnp
