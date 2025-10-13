@@ -15,6 +15,7 @@ import DeleteRecipe from "./DeleteRecipe";
 import CopyRecipe from "./CopyRecipe";
 
 import { numericProps } from "../Common"
+import { viewStyle } from "../Styled"
 import {
   useThrottle,
   recipeNameSchema,
@@ -65,7 +66,7 @@ function EditRecipe(props) {
   }, [ctx.selectedId.value]);
 
   return (
-    <Grid container spacing={1} padding={0.5} backgroundColor="#CCC" height="100%" alignContent="flex-start">
+    <Grid container spacing={1} padding={0.5} backgroundColor="#CCC" height="100%" alignContent="flex-start" style={viewStyle}>
       <Grid size={{ xs: 12 }} />
       <Grid size={{ xs: 2 }} />
       <Grid size={{ xs: 8 }}>

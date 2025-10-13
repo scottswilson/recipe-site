@@ -42,11 +42,6 @@ function TabView(props) {
     overflow: "auto"
   };
 
-  const viewStyle = {
-    maxHeight: 'calc(100vh - 48px)',
-    overflow: "auto"
-  };
-
   return (
     <Box>
       <AppBar position="static" style={barStyle}>
@@ -65,7 +60,7 @@ function TabView(props) {
           <Tab label="Edit" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
-      <SwipeableViews index={tab} onChangeIndex={onNewTabSwipe} style={viewStyle}>
+      <SwipeableViews index={tab} onChangeIndex={onNewTabSwipe}>
         <RecipeList ctx={ctx} setTab={setTab} />
         <Ingredients recipe={selectedRecipe} />
         <Procedure recipe={selectedRecipe} />

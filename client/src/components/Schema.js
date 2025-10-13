@@ -36,6 +36,8 @@ export const getRecipesSchema = (ctx, cb) => {
   axios.get(api, body)
     .then(response => {
       ctx.recipes.set(response.data);
+      const firstRecipe = response.data[0] || {id: ""};
+      ctx.selectedId.set(firstRecipe.id);
       cb?.();
     })
     .catch(error => console.error('API error:', error));
@@ -129,7 +131,8 @@ export const deleteSchema = (ctx, id, cbFinally, cbSuccess) => {
       let newRecipes = ctx.recipes.value.filter(r => {
         return r.id != id;
       });
-      ctx.selectedId.set("");
+      const firstRecipe = newRecipes[0] || {id: ""};
+      ctx.selectedId.set(firstRecipe.id);
       ctx.recipes.set(newRecipes);
       cbSuccess();
     })

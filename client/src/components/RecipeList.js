@@ -5,6 +5,7 @@ import {
   Box,
   TextField,
   ListItemButton,
+  Typography,
   Button,
   CircularProgress,
 } from '@mui/material';
@@ -31,8 +32,15 @@ const SearchBox = styled(Box)`
 
 const MyListButton = styled(ListItemButton)`
   padding: 0px !important;
-  &:hover {
-    background: #bcc2e2ff;
+
+  &.Mui-selected div.MuiImageListItemBar-root {
+    background-color: #ffffffda;
+    height: 40%;
+  }
+
+  &.Mui-selected div.MuiImageListItemBar-subtitle {
+    color: black;
+    font-weight: bolder;
   }
 `;
 
@@ -124,28 +132,31 @@ function RecipeList(props) {
         {visibleRecipes.map((recipe) => {
 
           const imgText = recipe.image.startsWith("data:image/webp;base64,") ? recipe.image : testImg;
+          const isSelected = ctx.selectedId.value === recipe.id;
           return (
-          <ImageListItem key={recipe.id}>
+            <ImageListItem key={recipe.id}>
 
-            <MyListButton
-              selected={ctx.selectedId.value === recipe.id}
-              onClick={() => changeRecipe(recipe.id)}
-              width="100%"
-            >
-              <MyImage
-                src={imgText}
-                alt={recipe.name}
-                loading="lazy"
+              <MyListButton
+                className={isSelected ? "selected" : ""}
+                selected={isSelected}
+                onClick={() => changeRecipe(recipe.id)}
                 width="100%"
-                style={{ aspectRatio: 1 }}
-              />
-              <ImageListItemBar
-                title={recipe.name}
-              />
-            </MyListButton>
+              >
+                <MyImage
+                  src={imgText}
+                  alt={recipe.name}
+                  loading="lazy"
+                  width="100%"
+                  style={{ aspectRatio: 1 }}
+                />
+                <ImageListItemBar
+                  subtitle={recipe.name}
+                />
+              </MyListButton>
 
-          </ImageListItem>
-        )})}
+            </ImageListItem>
+          )
+        })}
       </ImageList>
       <Button
         variant="outlined"
