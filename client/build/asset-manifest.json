@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e6c13ad2.css",
+    "main.js": "/static/js/main.290667f7.js",
+    "static/js/453.00c71c6d.chunk.js": "/static/js/453.00c71c6d.chunk.js",
+    "static/media/peanutbutter-curry.jpg": "/static/media/peanutbutter-curry.7e230d6858602531b231.jpg",
+    "static/media/chicken-pot-pie.webp": "/static/media/chicken-pot-pie.e7916c2ec35846641178.webp",
+    "static/media/peanutbutter-curry.webp": "/static/media/peanutbutter-curry.285ee21ec48d643f58e4.webp",
+    "static/media/test.webp": "/static/media/test.e68dcb5c646b5b06a2a0.webp",
+    "static/media/test2.webp": "/static/media/test2.e68dcb5c646b5b06a2a0.webp",
+    "index.html": "/index.html",
+    "main.e6c13ad2.css.map": "/static/css/main.e6c13ad2.css.map",
+    "main.290667f7.js.map": "/static/js/main.290667f7.js.map",
+    "453.00c71c6d.chunk.js.map": "/static/js/453.00c71c6d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.290667f7.js"
+  ]
+}

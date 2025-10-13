@@ -8,16 +8,23 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import { GoodButton, listSlotProps } from "../Styled"
+import {
+  useThrottle,
+  procedureSchema,
+} from "../Schema"
 
 function ProcedureRow(props) {
-  const { procedure, set, index } = props;
+  const { ctx, id, procedure, set, index } = props;
 
   const [deletePrimed, setDeletePrimed] = useState(false);
+
+  const procedureSchemaThrottle = useThrottle(procedureSchema, 500);
 
   const updateStep = (text) => {
     let newProcedure = procedure.slice();
     newProcedure[index] = text;
     set(newProcedure);
+    procedureSchemaThrottle(ctx, id, newProcedure);
   };
 
   const primeDelete = () => {
@@ -32,6 +39,7 @@ function ProcedureRow(props) {
     let newProcedure = procedure.slice();
     newProcedure.splice(index, 1)
     set(newProcedure);
+    procedureSchema(ctx, id, newProcedure);
     unprimeDelete();
   };
 
@@ -78,20 +86,23 @@ function getEmptyProcedure() {
 
 function EditProcedure(props) {
 
-  const { procedure, setProcedure } = props;
+  const { ctx, id, procedure, setProcedure } = props;
 
   const newStep = () => {
     let newProcedure = procedure.concat([getEmptyProcedure()]);
     setProcedure(newProcedure);
+    procedureSchema(ctx, id, newProcedure);
   }
 
   return (
-    <Grid container>
+    <Grid container spacing={0.7}>
 
       <Grid item size={{ xs: 12 }}>
         {procedure.map((_, i) => {
           return (
             <ProcedureRow
+              ctx={ctx}
+              id={id}
               procedure={procedure}
               index={i}
               set={setProcedure}

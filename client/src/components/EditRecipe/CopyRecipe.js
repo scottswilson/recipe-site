@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Button,
   Dialog,
@@ -12,17 +12,17 @@ import {
   Alert,
 } from '@mui/material';
 
-const url = "https://www.example.com/api/copy"
+import {
+  copyRecipeSchema,
+} from "../Schema"
 
 const CopyRecipe = (props) => {
-  const { itemId, currentName, onCopy } = props;
-
-  const suggestedName = currentName + " Copy";
+  const { ctx, id, currentName, onCopy } = props;
 
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [copyName, setCopyName] = useState(suggestedName);
+  const [copyName, setCopyName] = useState("");
 
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => {
@@ -32,31 +32,26 @@ const CopyRecipe = (props) => {
     }
   };
 
-  const handleCopy = async () => {
+  const handleCopy = () => {
     setLoading(true);
     setError('');
 
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: itemId }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to copy item');
-      }
-
+    const cbSuccess= () => {
+      ctx.selectedId.set("");
       handleClose();
       onCopy();
-    } catch (err) {
-      setError(err.message || 'An unexpected error occurred');
-    } finally {
+    }
+
+    const cbFinally = () => {
       setLoading(false);
     }
+
+    copyRecipeSchema(ctx, id, copyName, cbFinally, cbSuccess);
   };
+
+  useEffect(() => {
+    setCopyName(currentName + " Copy");
+  }, [ctx.selectedId.value]);
 
   return (
     <>

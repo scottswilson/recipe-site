@@ -11,10 +11,12 @@ import {
   Alert,
 } from '@mui/material';
 
-const deleteUrl = "https://www.example.com/api/delete"
+import {
+  deleteSchema,
+} from "../Schema"
 
 const DeleteRecipe = (props) => {
-  const { itemId, onDelete } = props;
+  const { ctx, id, onDelete } = props;
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -27,30 +29,21 @@ const DeleteRecipe = (props) => {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     setLoading(true);
     setError('');
 
-    try {
-      const response = await fetch(deleteUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: itemId }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete item');
-      }
-
+    const cbSuccess= () => {
       handleClose();
       onDelete();
-    } catch (err) {
-      setError(err.message || 'An unexpected error occurred');
-    } finally {
+    }
+
+    const cbFinally = () => {
       setLoading(false);
     }
+
+    deleteSchema(ctx, id, cbFinally, cbSuccess);
+    
   };
 
   return (

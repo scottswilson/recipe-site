@@ -12,21 +12,31 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 import { GoodButton, listSlotProps } from "../Styled"
 import { getEmptyIngredient } from "../Common"
+import {
+  useThrottle,
+  ingredientsSchema,
+} from "../Schema"
 
 function IngredientRow(props) {
-  const { ingredients, set, index } = props;
+  const { ctx, id, ingredients, set, index } = props;
 
   const [deletePrimed, setDeletePrimed] = useState(false);
+
+  const ingredientsLabelThrottle = useThrottle(ingredientsSchema, 500);
+  const ingredientsUnitsThrottle = useThrottle(ingredientsSchema, 500);
 
   const updateLabel = (text) => {
     let newIngreds = ingredients.slice();
     newIngreds[index].label = text;
     set(newIngreds);
+    ingredientsLabelThrottle(ctx, id, newIngreds);
   };
+
   const updateUnits = (text) => {
     let newIngreds = ingredients.slice();
     newIngreds[index].units = text;
     set(newIngreds);
+    ingredientsUnitsThrottle(ctx, id, newIngreds);
   };
 
 
@@ -42,6 +52,7 @@ function IngredientRow(props) {
     let newIngreds = ingredients.slice();
     newIngreds.splice(index, 1)
     set(newIngreds);
+    ingredientsSchema(ctx, id, newIngreds);
     unprimeDelete();
   };
 
@@ -53,6 +64,8 @@ function IngredientRow(props) {
 
         <Grid item size={{ xs: 2, md: 1 }}>
           <AmountPopover
+            ctx={ctx}
+            id={id}
             ingredients={ingredients}
             set={set}
             index={index}
@@ -107,20 +120,23 @@ function IngredientRow(props) {
 
 function EditIngredients(props) {
 
-  const { ingredients, setIngredients } = props;
+  const { ctx, id, ingredients, setIngredients } = props;
 
   const newIngredient = () => {
     let newIngredients = ingredients.concat([getEmptyIngredient()]);
     setIngredients(newIngredients);
+    ingredientsSchema(ctx, id, newIngredients);
   }
 
   return (
-    <Grid container>
+    <Grid container spacing={0.7}>
 
       <Grid item size={{ xs: 12 }}>
         {ingredients.map((_, i) => {
           return (
             <IngredientRow
+              ctx={ctx}
+              id={id}
               ingredients={ingredients}
               index={i}
               set={setIngredients}

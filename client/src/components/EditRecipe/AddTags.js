@@ -7,16 +7,20 @@ import Chip from '@mui/material/Chip';
 import ClearIcon from '@mui/icons-material/Clear';
 import CheckIcon from '@mui/icons-material/Check';
 
+import {
+  tagsSchema,
+} from "../Schema"
 
 function NewProcedure(props) {
 
-  const { tags, setTags } = props;
+  const { ctx, id, tags, setTags } = props;
   const [text, setText] = useState("");
 
   const newTag = (tag) => {
     if (tag.length > 0) {
       let newTags = tags.concat([tag]);
       setTags(newTags);
+      tagsSchema(ctx, id, newTags);
     }
   }
 
@@ -45,6 +49,7 @@ function NewProcedure(props) {
     let newTags = tags.slice();
     newTags.splice(i, 1)
     setTags(newTags);
+    tagsSchema(ctx, id, newTags);
   };
 
   return (

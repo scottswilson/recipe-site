@@ -15,6 +15,10 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { numericProps } from "../Common"
 import { GoodButton } from "../Styled"
+import {
+  useThrottle,
+  ingredientsSchema,
+} from "../Schema"
 
 import styled from "styled-components";
 
@@ -39,12 +43,17 @@ const CenteredTextField = styled(TextField)`
 
 function AmountPopover(props) {
 
-  const { ingredients, set, index } = props;
+  const { ctx, id, ingredients, set, index } = props;
+
+  const wholeThrottle = useThrottle(ingredientsSchema, 500);
+  const numThrottle = useThrottle(ingredientsSchema, 500);
+  const demThrottle = useThrottle(ingredientsSchema, 500);
 
   const incWhole = () => {
     let newIngreds = ingredients.slice();
     newIngreds[index].amount.whole++;
     set(newIngreds);
+    ingredientsSchema(ctx, id, newIngreds);
   };
 
   const decWhole = () => {
@@ -52,6 +61,7 @@ function AmountPopover(props) {
     if (newIngreds[index].amount.whole > 0) {
       newIngreds[index].amount.whole--;
       set(newIngreds);
+      ingredientsSchema(ctx, id, newIngreds);
     }
   };
 
@@ -59,12 +69,14 @@ function AmountPopover(props) {
     let newIngreds = ingredients.slice();
     newIngreds[index].amount.whole = text.replaceAll(/[^0-9]/g, "");
     set(newIngreds);
+    wholeThrottle(ctx, id, newIngreds);
   };
 
   const incNumerator = () => {
     let newIngreds = ingredients.slice();
     newIngreds[index].amount.num++;
     set(newIngreds);
+    ingredientsSchema(ctx, id, newIngreds);
   };
 
   const decNumerator = () => {
@@ -72,6 +84,7 @@ function AmountPopover(props) {
     if (newIngreds[index].amount.num > 0) {
       newIngreds[index].amount.num--;
       set(newIngreds);
+      ingredientsSchema(ctx, id, newIngreds);
     }
   };
 
@@ -79,6 +92,7 @@ function AmountPopover(props) {
     let newIngreds = ingredients.slice();
     newIngreds[index].amount.num = text.replaceAll(/[^0-9]/g, "");
     set(newIngreds);
+    numThrottle(ctx, id, newIngreds);
   };
 
   const incDenominator = () => {
@@ -86,6 +100,7 @@ function AmountPopover(props) {
     if (newIngreds[index].amount.dem < 16) {
       newIngreds[index].amount.dem++;
       set(newIngreds);
+      ingredientsSchema(ctx, id, newIngreds);
     }
   };
 
@@ -94,6 +109,7 @@ function AmountPopover(props) {
     if (newIngreds[index].amount.dem > 1) {
       newIngreds[index].amount.dem--;
       set(newIngreds);
+      ingredientsSchema(ctx, id, newIngreds);
     }
   };
 
@@ -101,6 +117,7 @@ function AmountPopover(props) {
     let newIngreds = ingredients.slice();
     newIngreds[index].amount.dem = text.replaceAll(/[^0-9]/g, "");
     set(newIngreds);
+    demThrottle(ctx, id, newIngreds);
   };
 
 
