@@ -1,7 +1,7 @@
 import { useRef, useCallback } from "react";
 import axios from 'axios';
 
-export const baseUrl = "http://localhost:3001";
+const baseUrl = process.env.REACT_APP_API_URL
 
 
 export function useThrottle(callback, delay) {
