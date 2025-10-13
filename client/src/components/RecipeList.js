@@ -17,9 +17,10 @@ import styled from "styled-components";
 
 import { viewStyle } from "./Styled"
 import {
-  getRecipesSchema,
   newRecipeSchema,
 } from "./Schema"
+
+import testImg from '../images/test.webp?inline';
 
 const SearchBox = styled(Box)`
   padding-left: 30px;
@@ -59,11 +60,8 @@ function RecipeList(props) {
   const onNewRecipe = () => {
     setBusy(true);
 
-    const cbSuccess = (id) => {
-      return () => {
-        setTab(3);
-        ctx.selectedId.set(id);
-      }
+    const cbSuccess = () => {
+      setTab(3);
     };
 
     const cbFinally = () => {
@@ -99,8 +97,6 @@ function RecipeList(props) {
 
     window.addEventListener('resize', handleResize);
 
-    getRecipesSchema(ctx);
-
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -125,8 +121,11 @@ function RecipeList(props) {
         />
       </SearchBox>
       <ImageList cols={numCols} gap={0} style={{ margin: "0px" }}>
-        {visibleRecipes.map((recipe) => (
-          <ImageListItem>
+        {visibleRecipes.map((recipe) => {
+
+          const imgText = recipe.image.startsWith("data:image/webp;base64,") ? recipe.image : testImg;
+          return (
+          <ImageListItem key={recipe.id}>
 
             <MyListButton
               selected={ctx.selectedId.value === recipe.id}
@@ -134,7 +133,7 @@ function RecipeList(props) {
               width="100%"
             >
               <MyImage
-                src={require(`../images/${recipe.image}`)}
+                src={imgText}
                 alt={recipe.name}
                 loading="lazy"
                 width="100%"
@@ -146,7 +145,7 @@ function RecipeList(props) {
             </MyListButton>
 
           </ImageListItem>
-        ))}
+        )})}
       </ImageList>
       <Button
         variant="outlined"

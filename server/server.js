@@ -34,7 +34,6 @@ updateRecipeImpl = (res, field, id, datum) => {
 };
 
 validateImpl = (req) => {
-  console.log("VALIDATE")
   const { key, id } = req.body;
 
   if (!key || !id) {
@@ -181,7 +180,6 @@ app.post('/api/v1/newRecipe', (req, res) => {
 });
 
 app.post('/api/v1/deleteRecipe', (req, res) => {
-  console.log(`DELETE RECIPE ${req.body.id}`)
   const {
     key,
     id,
@@ -207,7 +205,6 @@ app.post('/api/v1/deleteRecipe', (req, res) => {
 });
 
 app.get('/api/v1/recipes', (req, res) => {
-  console.log("GET RECIPES")
   const sql = 'SELECT * FROM recipes';
 
   db.all(sql, [], (err, rows) => {

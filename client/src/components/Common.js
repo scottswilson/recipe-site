@@ -15,7 +15,7 @@ export const numericProps = {
 export function getEmptyRecipe() {
   return {
     "id": "none",
-    "name": "No Recipes",
+    "name": "No Recipe Selected",
     "servings": 0,
     "ingredients": [],
     "procedure": [],

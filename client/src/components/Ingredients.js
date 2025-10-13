@@ -43,7 +43,7 @@ function Ingredients(props) {
           return (
             <CellType style={{ padding: "2px" }}>
               <Container container>
-                <Grid item size={{ xs: 1, md: 1 }}>
+                <Grid size={{ xs: 1, md: 1 }}>
                   <AmountTypography sx={{ fontWeight: "bold" }}>
                     {
                       ingredient.amount.whole > 0 ? (
@@ -60,12 +60,12 @@ function Ingredients(props) {
                     }
                   </AmountTypography>
                 </Grid>
-                <Grid item size={{ xs: 2, md: 1 }}>
+                <Grid size={{ xs: 2, md: 1 }}>
                   <UnitTypography sx={{ fontWeight: "bold" }}>
                     {ingredient.units}
                   </UnitTypography>
                 </Grid>
-                <Grid item size={{ xs: 9, md: 10 }}>
+                <Grid size={{ xs: 9, md: 10 }}>
                   <IngredientTypography>
                     {ingredient.label}
                   </IngredientTypography>

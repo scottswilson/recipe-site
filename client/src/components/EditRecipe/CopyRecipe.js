@@ -83,12 +83,12 @@ const CopyRecipe = (props) => {
         </DialogContent>
         <DialogActions>
           <Grid container style={{ minWidth: "300px", width: "100%" }} spacing={1}>
-            <Grid item size={{ xs: 6 }}>
+            <Grid size={{ xs: 6 }}>
               <Button variant="outlined" onClick={handleClose} disabled={loading} fullWidth>
                 Cancel
               </Button>
             </Grid>
-            <Grid item size={{ xs: 6 }}>
+            <Grid size={{ xs: 6 }}>
               <Button
                 onClick={handleCopy}
                 color="success"

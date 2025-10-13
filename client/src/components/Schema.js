@@ -44,8 +44,7 @@ export const getRecipesSchema = (ctx, cb) => {
 export const newRecipeSchema = (ctx, cbFinally, cbSuccess) => {
   const api = baseUrl + "/api/v1/newRecipe";
 
-  const body = {
-    key: ctx.key.value,
+  const newRecipe = {
     name: `Recipe ${ctx.recipes.value.length + 1}`,
     servings: 4,
     ingredients: [
@@ -57,12 +56,23 @@ export const newRecipeSchema = (ctx, cbFinally, cbSuccess) => {
     ],
     procedure: ["Place water in cup"],
     tags: [],
-    image: "test.webp"
+    image: ""
+  };
+
+  const body = {
+    key: ctx.key.value,
+    ...newRecipe
   };
 
   axios.post(api, body)
     .then(response => {
-      getRecipesSchema(ctx, cbSuccess(response.data.id));
+      let newRecipes = ctx.recipes.value.concat([{
+        ...newRecipe,
+        id: response.data.id
+      }]);
+      ctx.recipes.set(newRecipes);
+      ctx.selectedId.set(response.data.id);
+      cbSuccess();
     })
     .catch(error => console.error('API error:', error))
     .finally(() => {
@@ -81,15 +91,25 @@ export const copyRecipeSchema = (ctx, id, newName, cbFinally, cbSuccess) => {
     return;
   }
 
-  const body = {
+  const newRecipe = {
     ...selectedRecipe,
-    key: ctx.key.value,
     name: newName,
+  };
+
+  const body = {
+    key: ctx.key.value,
+    ...newRecipe
   };
 
   axios.post(api, body)
     .then(response => {
-      getRecipesSchema(ctx, cbSuccess);
+      let newRecipes = ctx.recipes.value.concat([{
+        ...newRecipe,
+        id: response.data.id
+      }]);
+      ctx.recipes.set(newRecipes);
+      ctx.selectedId.set("");
+      cbSuccess();
     })
     .catch(error => console.error('API error:', error))
     .finally(() => {
@@ -222,7 +242,7 @@ export const tagsSchema = (ctx, id, tags) => {
     .catch(error => console.error('API error:', error));
 };
 
-export const imageSchema = (ctx, id, image) => {
+export const imageSchema = (ctx, id, image, cbFinally, cbSuccess) => {
   const api = baseUrl + "/api/v1/image";
   const body = {
     key: ctx.key.value,
@@ -239,6 +259,10 @@ export const imageSchema = (ctx, id, image) => {
         };
       });
       ctx.recipes.set(newRecipes);
+      cbSuccess();
     })
-    .catch(error => console.error('API error:', error));
+    .catch(error => console.error('API error:', error))
+    .finally(() => {
+      cbFinally();
+    });
 };

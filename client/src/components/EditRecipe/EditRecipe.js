@@ -142,13 +142,17 @@ function EditRecipe(props) {
           <Typography variant="h5" style={{ textAlign: "center" }}>
             Image
           </Typography>
-          <ImageCropUpload />
+          <ImageCropUpload
+            ctx={ctx}
+            id={recipe.id}
+            currentImage={recipe.image}
+          />
         </RecipePaper>
       </Grid>
       <Grid size={{ xs: 12 }} >
         <RecipePaper>
           <Grid container spacing={1}>
-            <Grid item size={6}>
+            <Grid size={6}>
               <CopyRecipe
                 ctx={ctx}
                 id={recipe.id}
@@ -156,7 +160,7 @@ function EditRecipe(props) {
                 onCopy={goToRecipeList}
               />
             </Grid>
-            <Grid item size={6}>
+            <Grid size={6}>
               <DeleteRecipe
                 ctx={ctx}
                 id={recipe.id}

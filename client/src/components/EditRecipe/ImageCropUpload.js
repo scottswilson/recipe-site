@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Cropper from 'react-easy-crop';
 import Grid from '@mui/material/Grid';
 import getCroppedImg from './cropImage';
@@ -8,8 +8,32 @@ import UploadIcon from '@mui/icons-material/Upload';
 import SaveIcon from '@mui/icons-material/Save';
 
 import { GoodButton } from "../Styled"
+import {
+  imageSchema,
+} from "../Schema"
 
-const ImageCropUpload = () => {
+function base64ToFile(base64String, fileName) {
+
+  if (!base64String.startsWith("data:image/webp;base64,")) {
+    return;
+  }
+
+  const [_, base64Data] = base64String.split(',')
+
+  const type = 'image/webp';
+
+  const byteCharacters = atob(base64Data);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+
+  return new File([byteArray], fileName, { type });
+}
+
+const ImageCropUpload = (props) => {
+  const { ctx, id, currentImage } = props;
   const [image, setImage] = useState(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -25,6 +49,8 @@ const ImageCropUpload = () => {
     const file = e.target.files[0];
     if (file) {
       const imageUrl = URL.createObjectURL(file);
+      console.log(file);
+      console.log(imageUrl);
       setImage(imageUrl);
     }
   };
@@ -43,64 +69,64 @@ const ImageCropUpload = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('image', croppedImage, 'cropped-image.jpg');
+    setUploadStatus('');
 
-    console.log(croppedImage)
+    const cbSuccess = () => {
+      setUploadStatus('Image uploaded successfully!');
+    };
 
-    try {
-      setUploadStatus('Uploading...');
-      const response = await fetch('https://example.com/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
+    const cbFinally = () => {
+      setBusy(false);
+    };
 
-      if (response.ok) {
-        setUploadStatus('Image uploaded successfully!');
-      } else {
-        setUploadStatus('Upload failed.');
-      }
-    } catch (error) {
-      setUploadStatus('An error occurred.');
-      console.error(error);
-    }
-    
-    setBusy(false);
+    imageSchema(ctx, id, croppedImage, cbFinally, cbSuccess);
+
   };
+
+  useEffect(() => {
+    const newImage = base64ToFile(currentImage, "image.webp");
+    if (newImage) {
+      const imageUrl = URL.createObjectURL(newImage);
+      setImage(imageUrl);
+    } else {
+      setImage(null);
+    }
+    setUploadStatus('');
+  }, [ctx.selectedId.value])
 
   return (
     <Grid style={{ maxWidth: 500, margin: 'auto' }} container spacing={1}>
-      <Grid item size={{ xs: 4 }}>
+      <Grid size={{ xs: 4 }}>
         <GoodButton
           variant="contained"
           color="primary"
           fullWidth
-          style={{height: "40px"}}
+          style={{ height: "40px" }}
           component="label"
         >
-          <input type="file" accept="image/*" onChange={handleFileChange} hidden/>
-          <UploadIcon/>Upload
+          <input type="file" accept="image/*" onChange={handleFileChange} hidden />
+          <UploadIcon />Upload
         </GoodButton>
 
       </Grid>
-      <Grid item size={{ xs: 4 }}>
+      <Grid size={{ xs: 4 }}>
         <GoodButton
           variant="contained"
           color="info"
           onClick={uploadImage}
-          style={{height: "40px"}}
+          style={{ height: "40px" }}
           disabled={busy || !image}
         >
-          <SaveIcon/> Save
+          <SaveIcon /> Save
         </GoodButton>
       </Grid>
-      <Grid item size={{ xs: 4 }}>
+      <Grid size={{ xs: 4 }}>
         <Typography>
           {uploadStatus}
         </Typography>
       </Grid>
       {image && (
-        <Grid item size={{ xs: 12 }} style={{
+        <Grid size={{ xs: 12 }} style={{
           position: "relative",
           height: "300px",
           background: "#333",

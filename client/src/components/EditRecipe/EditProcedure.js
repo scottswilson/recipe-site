@@ -45,9 +45,9 @@ function ProcedureRow(props) {
 
 
   return (
-    <Grid item>
+    <Grid>
       <Grid container>
-        <Grid item size={{ xs: 10 }}>
+        <Grid size={{ xs: 10 }}>
           <TextField
             label={"Step " + index}
             fullWidth
@@ -60,7 +60,7 @@ function ProcedureRow(props) {
             }}
           />
         </Grid>
-        <Grid item size={{ xs: 2 }} sx={{
+        <Grid size={{ xs: 2 }} sx={{
           justifyContent: "center",
           alignItems: "center",
         }} container >
@@ -97,7 +97,7 @@ function EditProcedure(props) {
   return (
     <Grid container spacing={0.7}>
 
-      <Grid item size={{ xs: 12 }}>
+      <Grid size={{ xs: 12 }}>
         {procedure.map((_, i) => {
           return (
             <ProcedureRow
@@ -111,7 +111,7 @@ function EditProcedure(props) {
         })}
       </Grid>
 
-      <Grid item size={{ xs: 12 }}>
+      <Grid size={{ xs: 12 }}>
         <Button
           onClick={newStep}
           fullWidth

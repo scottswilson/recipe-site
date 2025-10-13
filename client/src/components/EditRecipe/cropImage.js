@@ -2,7 +2,7 @@ export default function getCroppedImg(imageSrc, pixelCrop) {
   const canvas = document.createElement('canvas');
   const image = new Image();
 
-  const OUTPUT_SIZE = 250; // Output dimensions (250x250)
+  const OUTPUT_SIZE = 150; // Output dimensions (250x250)
 
   return new Promise((resolve, reject) => {
     image.onload = () => {
@@ -32,7 +32,18 @@ export default function getCroppedImg(imageSrc, pixelCrop) {
             reject(new Error('Canvas is empty'));
             return;
           }
-          resolve(blob);
+          
+          const reader = new FileReader();
+          
+          reader.onloadend = () => {
+            resolve(reader.result);
+          };
+
+          reader.onerror = (error) => {
+            reject(error);
+          };
+
+          reader.readAsDataURL(blob);
         },
         'image/webp',
         0.95 // Quality: 0.0 - 1.0 (adjust as needed)

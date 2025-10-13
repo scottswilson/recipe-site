@@ -55,7 +55,7 @@ function NewProcedure(props) {
   return (
     <Grid container spacing={1}>
 
-      <Grid item size={{ xs: 12 }} sx={{
+      <Grid size={{ xs: 12 }} sx={{
         justifyContent: "center",
         alignItems: "center",
       }} container spacing={1}>
@@ -73,9 +73,9 @@ function NewProcedure(props) {
         })}
       </Grid>
 
-      <Grid item size={{ xs: 1 }} />
+      <Grid size={{ xs: 1 }} />
 
-      <Grid item size={{ xs: 8 }}>
+      <Grid size={{ xs: 8 }}>
         <TextField
           label="New Tag"
           value={text}
@@ -86,7 +86,7 @@ function NewProcedure(props) {
         />
       </Grid>
 
-      <Grid item size={{ xs: 2 }}>
+      <Grid size={{ xs: 2 }}>
         <Button
           onClick={onAccept}
           variant="outlined"
@@ -97,7 +97,7 @@ function NewProcedure(props) {
         </Button>
       </Grid>
       
-      <Grid item size={{ xs: 1 }} />
+      <Grid size={{ xs: 1 }} />
 
     </Grid>
   );

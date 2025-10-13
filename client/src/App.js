@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TabView from "./components/TabView.js"
-import {sampleRecipes} from "./components/Common"
+import { sampleRecipes } from "./components/Common"
+import {
+  getRecipesSchema,
+} from "./components/Schema"
 
 function App() {
 
@@ -22,6 +25,10 @@ function App() {
       set: setKey,
     },
   };
+
+  useEffect(() => {
+    getRecipesSchema(ctx);
+  }, []);
 
   return (
     <TabView ctx={ctx} />

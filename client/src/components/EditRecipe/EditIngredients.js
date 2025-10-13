@@ -59,10 +59,10 @@ function IngredientRow(props) {
   const ingredient = ingredients[index];
 
   return (
-    <Grid item>
+    <Grid>
       <Grid container>
 
-        <Grid item size={{ xs: 2, md: 1 }}>
+        <Grid size={{ xs: 2, md: 1 }}>
           <AmountPopover
             ctx={ctx}
             id={id}
@@ -72,7 +72,7 @@ function IngredientRow(props) {
           />
         </Grid>
 
-        <Grid item size={{ xs: 2 }}>
+        <Grid size={{ xs: 2 }}>
           <TextField
             label="Units"
             fullWidth
@@ -85,7 +85,7 @@ function IngredientRow(props) {
           />
         </Grid>
 
-        <Grid item size={{ xs: 6, md: 7 }}>
+        <Grid size={{ xs: 6, md: 7 }}>
           <TextField
             label="Name"
             fullWidth
@@ -98,7 +98,7 @@ function IngredientRow(props) {
           />
         </Grid>
 
-        <Grid item size={{ xs: 2 }} sx={{
+        <Grid size={{ xs: 2 }} sx={{
           justifyContent: "center",
           alignItems: "center",
         }} container >
@@ -131,7 +131,7 @@ function EditIngredients(props) {
   return (
     <Grid container spacing={0.7}>
 
-      <Grid item size={{ xs: 12 }}>
+      <Grid size={{ xs: 12 }}>
         {ingredients.map((_, i) => {
           return (
             <IngredientRow
@@ -145,7 +145,7 @@ function EditIngredients(props) {
         })}
       </Grid>
 
-      <Grid item size={{ xs: 12 }}>
+      <Grid size={{ xs: 12 }}>
         <Button
           onClick={newIngredient}
           fullWidth

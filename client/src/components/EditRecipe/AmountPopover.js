@@ -174,7 +174,7 @@ function AmountPopover(props) {
         }}
       >
         <Grid container style={{ width: "300px" }} spacing={1} padding={1}>
-          <Grid item size={{ xs: 4 }} container direction="column" sx={{
+          <Grid size={{ xs: 4 }} container direction="column" sx={{
             justifyContent: "center",
             alignItems: "center",
           }}>
@@ -198,7 +198,7 @@ function AmountPopover(props) {
               </Button>
             </Grid>
           </Grid>
-          <Grid item size={{ xs: 3 }} container direction="column" sx={{
+          <Grid size={{ xs: 3 }} container direction="column" sx={{
             justifyContent: "center",
             alignItems: "center",
           }}>
@@ -216,7 +216,7 @@ function AmountPopover(props) {
               <KeyboardArrowLeftIcon />
             </Button>
           </Grid>
-          <Grid item size={{ xs: 2 }} container direction="column" sx={{
+          <Grid size={{ xs: 2 }} container direction="column" sx={{
             justifyContent: "center",
             alignItems: "center",
           }}>
@@ -231,7 +231,7 @@ function AmountPopover(props) {
               slotProps={numericProps}
             />
           </Grid>
-          <Grid item size={{ xs: 3 }} container direction="column" sx={{
+          <Grid size={{ xs: 3 }} container direction="column" sx={{
             justifyContent: "center",
             alignItems: "center",
           }}>
