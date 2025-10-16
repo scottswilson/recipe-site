@@ -1,8 +1,12 @@
 import { useRef, useCallback } from "react";
 import axios from 'axios';
 
-const baseUrl = process.env.REACT_APP_API_URL
+const baseURL = process.env.REACT_APP_API_URL;
 
+const axiosApi = axios.create({
+  baseURL,
+  withCredentials: true, // Send cookies with requests
+});
 
 export function useThrottle(callback, delay) {
   const timeoutRef = useRef(null);
@@ -27,13 +31,13 @@ export function useThrottle(callback, delay) {
 };
 
 export const getRecipesSchema = (ctx, cb) => {
-  const api = baseUrl + "/api/v1/recipes";
+  const api = "/api/v1/recipes";
 
   const body = {
     key: ctx.key.value,
   };
 
-  axios.get(api, body)
+  axiosApi.get(api, body)
     .then(response => {
       ctx.recipes.set(response.data);
       const firstRecipe = response.data[0] || {id: ""};
@@ -44,7 +48,7 @@ export const getRecipesSchema = (ctx, cb) => {
 };
 
 export const newRecipeSchema = (ctx, cbFinally, cbSuccess) => {
-  const api = baseUrl + "/api/v1/newRecipe";
+  const api = "/api/v1/newRecipe";
 
   const newRecipe = {
     name: `Recipe ${ctx.recipes.value.length + 1}`,
@@ -66,7 +70,7 @@ export const newRecipeSchema = (ctx, cbFinally, cbSuccess) => {
     ...newRecipe
   };
 
-  axios.post(api, body)
+  axiosApi.post(api, body)
     .then(response => {
       let newRecipes = ctx.recipes.value.concat([{
         ...newRecipe,
@@ -83,7 +87,7 @@ export const newRecipeSchema = (ctx, cbFinally, cbSuccess) => {
 };
 
 export const copyRecipeSchema = (ctx, id, newName, cbFinally, cbSuccess) => {
-  const api = baseUrl + "/api/v1/newRecipe";
+  const api = "/api/v1/newRecipe";
 
   const selectedRecipe = ctx.recipes.value.filter((recipe) => {
     return recipe.id === ctx.selectedId.value;
@@ -103,7 +107,7 @@ export const copyRecipeSchema = (ctx, id, newName, cbFinally, cbSuccess) => {
     ...newRecipe
   };
 
-  axios.post(api, body)
+  axiosApi.post(api, body)
     .then(response => {
       let newRecipes = ctx.recipes.value.concat([{
         ...newRecipe,
@@ -120,13 +124,13 @@ export const copyRecipeSchema = (ctx, id, newName, cbFinally, cbSuccess) => {
 };
 
 export const deleteSchema = (ctx, id, cbFinally, cbSuccess) => {
-  const api = baseUrl + "/api/v1/deleteRecipe";
+  const api = "/api/v1/deleteRecipe";
   const body = {
     key: ctx.key.value,
     id: id,
   };
 
-  axios.post(api, body)
+  axiosApi.post(api, body)
     .then(response => {
       let newRecipes = ctx.recipes.value.filter(r => {
         return r.id != id;
@@ -141,14 +145,14 @@ export const deleteSchema = (ctx, id, cbFinally, cbSuccess) => {
 };
 
 export const recipeNameSchema = (ctx, id, name) => {
-  const api = baseUrl + "/api/v1/recipeName";
+  const api = "/api/v1/recipeName";
   const body = {
     key: ctx.key.value,
     id: id,
     name: name
   };
 
-  axios.post(api, body)
+  axiosApi.post(api, body)
     .then(response => {
       let newRecipes = ctx.recipes.value.map(r => {
         return {
@@ -162,14 +166,14 @@ export const recipeNameSchema = (ctx, id, name) => {
 };
 
 export const servingsSchema = (ctx, id, servings) => {
-  const api = baseUrl + "/api/v1/servings";
+  const api = "/api/v1/servings";
   const body = {
     key: ctx.key.value,
     id: id,
     servings: servings
   };
 
-  axios.post(api, body)
+  axiosApi.post(api, body)
     .then(response => {
       let newRecipes = ctx.recipes.value.map(r => {
         return {
@@ -183,14 +187,14 @@ export const servingsSchema = (ctx, id, servings) => {
 };
 
 export const ingredientsSchema = (ctx, id, ingredients) => {
-  const api = baseUrl + "/api/v1/ingredients";
+  const api = "/api/v1/ingredients";
   const body = {
     key: ctx.key.value,
     id: id,
     ingredients
   };
 
-  axios.post(api, body)
+  axiosApi.post(api, body)
     .then(response => {
       let newRecipes = ctx.recipes.value.map(r => {
         return {
@@ -204,14 +208,14 @@ export const ingredientsSchema = (ctx, id, ingredients) => {
 };
 
 export const procedureSchema = (ctx, id, procedure) => {
-  const api = baseUrl + "/api/v1/procedure";
+  const api = "/api/v1/procedure";
   const body = {
     key: ctx.key.value,
     id: id,
     procedure
   };
 
-  axios.post(api, body)
+  axiosApi.post(api, body)
     .then(response => {
       let newRecipes = ctx.recipes.value.map(r => {
         return {
@@ -225,14 +229,14 @@ export const procedureSchema = (ctx, id, procedure) => {
 };
 
 export const tagsSchema = (ctx, id, tags) => {
-  const api = baseUrl + "/api/v1/tags";
+  const api = "/api/v1/tags";
   const body = {
     key: ctx.key.value,
     id: id,
     tags
   };
 
-  axios.post(api, body)
+  axiosApi.post(api, body)
     .then(response => {
       let newRecipes = ctx.recipes.value.map(r => {
         return {
@@ -246,14 +250,14 @@ export const tagsSchema = (ctx, id, tags) => {
 };
 
 export const imageSchema = (ctx, id, image, cbFinally, cbSuccess) => {
-  const api = baseUrl + "/api/v1/image";
+  const api = "/api/v1/image";
   const body = {
     key: ctx.key.value,
     id: id,
     image
   };
 
-  axios.post(api, body)
+  axiosApi.post(api, body)
     .then(response => {
       let newRecipes = ctx.recipes.value.map(r => {
         return {
@@ -267,5 +271,32 @@ export const imageSchema = (ctx, id, image, cbFinally, cbSuccess) => {
     .catch(error => console.error('API error:', error))
     .finally(() => {
       cbFinally();
+    });
+};
+
+export const loginSchema = (ctx, info, cbSuccess, cbFailed) => {
+  const api = "/api/v1/login";
+  const body = info;
+
+  axiosApi.post(api, body)
+    .then(response => {
+      cbSuccess();
+    })
+    .catch(error => {
+      cbFailed(error);
+      console.log(error);
+    });
+};
+
+export const dashboardSchema = (ctx) => {
+  const api = "/api/v1/dashboard";
+
+  axiosApi.get(api)
+    .then(response => {
+      ctx.loggedIn.set(true);
+    })
+    .catch(error => {
+      ctx.loggedIn.set(false);
+      console.log(error);
     });
 };
