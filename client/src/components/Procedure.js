@@ -1,19 +1,29 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import {
+  Grid,
+  Box,
+  Typography,
+  List,
+  ListItemText,
+} from '@mui/material';
 
-import List from '@mui/material/List';
-import ListItemText from '@mui/material/ListItemText';
-
-import {viewStyle, EvenListItem, OddListItem} from "./Styled"
+import RecipeMenu from './RecipeMenu';
+import { viewStyle, EvenListItem, OddListItem } from "./Styled"
 
 
 function Procedure(props) {
-  const { recipe } = props;
+  const { ctx, recipe } = props;
   return (
     <Box style={viewStyle}>
-      <Typography variant="h5" style={{textAlign:"center"}}>
-        {recipe.name}
-      </Typography>
+      <Grid container>
+        <Grid size={{ xs: 10, md: 11 }} padding={1}>
+          <Typography variant="h5" style={{ textAlign: "center" }}>
+            {recipe.name}
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 2, md: 1 }} padding={1}>
+          <RecipeMenu ctx={ctx} enableEdit={true} />
+        </Grid>
+      </Grid>
 
       <List component="nav" aria-label="recipes">
         {recipe.procedure.map((step, i) => {

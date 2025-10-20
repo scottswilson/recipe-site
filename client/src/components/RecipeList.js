@@ -1,34 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 import {
   Box,
+  Grid,
   TextField,
   ListItemButton,
-  Typography,
   Button,
   CircularProgress,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
 } from '@mui/material';
-
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
 
 import styled from "styled-components";
 
-import { viewStyle } from "./Styled"
+import RecipeMenu from './RecipeMenu';
 import {
   newRecipeSchema,
 } from "./Schema"
+import { viewStyle } from "./Styled"
 
 import testImg from '../images/test.webp?inline';
 
-const SearchBox = styled(Box)`
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-`;
 
 const MyListButton = styled(ListItemButton)`
   padding: 0px !important;
@@ -57,32 +50,17 @@ const MyImage = styled.img`
 `;
 
 function RecipeList(props) {
-  const { ctx, setTab } = props;
+  const { ctx } = props;
 
   const [searchText, setSearchText] = useState("");
   const [width, setWidth] = useState(window.innerWidth);
-  const [busy, setBusy] = useState(false);
   const [visibleRecipes, setVisibleRecipes] = useState([]);
 
   const numCols = Math.ceil(width / 150);
 
   const changeRecipe = (id) => {
     ctx.selectedId.set(id);
-    setTab(1);
-  };
-
-  const onNewRecipe = () => {
-    setBusy(true);
-
-    const cbSuccess = () => {
-      setTab(3);
-    };
-
-    const cbFinally = () => {
-      setBusy(false);
-    };
-
-    newRecipeSchema(ctx, cbFinally, cbSuccess);
+    ctx.tab.set(1);
   };
 
   const updateSearch = (newText) => {
@@ -122,18 +100,25 @@ function RecipeList(props) {
 
   return (
     <Box style={viewStyle}>
-      <SearchBox>
-        <TextField
-          id="standard-basic"
-          label="Search"
-          type="search"
-          fullWidth
-          value={searchText}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            updateSearch(event.target.value);
-          }}
-        />
-      </SearchBox>
+      <Grid container>
+        <Grid size={{xs: 10, md: 11}} padding={1}>
+          <TextField
+            id="standard-basic"
+            label="Search"
+            type="search"
+            fullWidth
+            value={searchText}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              updateSearch(event.target.value);
+            }}
+          />
+        </Grid>
+        <Grid size={{xs: 2, md: 1}}  padding={1}>
+          <RecipeMenu ctx={ctx} enableNew={true} />
+        </Grid>
+      </Grid>
+
+
       <ImageList cols={numCols} gap={0} style={{ margin: "0px" }}>
         {visibleRecipes.map((recipe) => {
 
@@ -164,14 +149,6 @@ function RecipeList(props) {
           )
         })}
       </ImageList>
-      <Button
-        variant="outlined"
-        onClick={onNewRecipe}
-        fullWidth
-        disabled={busy}
-      >
-        {busy ? <CircularProgress size={24} /> : "Add Recipe"}
-      </Button>
     </Box>
   );
 }

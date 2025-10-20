@@ -1,9 +1,12 @@
 
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import {
+  Grid,
+  Box,
+  Typography,
+  List,
+} from '@mui/material';
 
-import List from '@mui/material/List';
+import RecipeMenu from './RecipeMenu';
 
 import styled from "styled-components";
 
@@ -28,14 +31,21 @@ const IngredientTypography = styled(Typography)`
 `;
 
 function Ingredients(props) {
-  const { recipe } = props;
+  const { ctx, recipe } = props;
 
 
   return (
     <Box style={viewStyle}>
-      <Typography variant="h5" style={{ textAlign: "center" }}>
-        {recipe.name}
-      </Typography>
+      <Grid container>
+        <Grid size={{xs: 10, md: 11}} padding={1}>
+          <Typography variant="h5" style={{ textAlign: "center" }}>
+            {recipe.name}
+          </Typography>
+        </Grid>
+        <Grid size={{xs: 2, md: 1}} padding={1}>
+          <RecipeMenu ctx={ctx} enableEdit={true}/>
+        </Grid>
+      </Grid>
       <List component="nav" aria-label="recipes">
         {recipe.ingredients.map((ingredient, i) => {
           const isEven = i & 0x1;

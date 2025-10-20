@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 
 import {
+  Button,
   TextField,
   Typography,
   Paper,
   Grid
 } from "@mui/material";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 import EditIngredients from "./EditIngredients";
 import EditProcedure from "./EditProcedure";
@@ -17,13 +19,15 @@ import CopyRecipe from "./CopyRecipe";
 import { numericProps } from "../Common"
 import { viewStyle } from "../Styled"
 import {
+  State,
   useThrottle,
   recipeNameSchema,
   servingsSchema,
 } from "../Schema"
 
-import styled from "styled-components";
+import { getEmptyRecipe } from "../Common"
 
+import styled from "styled-components";
 
 export const RecipePaper = styled(Paper)`
   background: white;
@@ -32,7 +36,11 @@ export const RecipePaper = styled(Paper)`
 
 function EditRecipe(props) {
 
-  const { setTab, recipe, ctx } = props;
+  const { ctx } = props;
+
+  const recipe = ctx.recipes.value.filter((recipe) => {
+    return recipe.id === ctx.selectedId.value;
+  })[0] || getEmptyRecipe();
 
   const [recipeName, setRecipeName] = useState(recipe.name);
   const [servings, setServings] = useState(recipe.servings);
@@ -54,7 +62,12 @@ function EditRecipe(props) {
   };
 
   const goToRecipeList = () => {
-    setTab(0);
+    ctx.tab.set(0);
+    onBack();
+  };
+
+  const onBack = () => {
+    ctx.state.set(State.VIEW);
   };
 
   useEffect(() => {
@@ -66,19 +79,21 @@ function EditRecipe(props) {
   }, [ctx.selectedId.value]);
 
   return (
-    <Grid container spacing={1} padding={0.5} backgroundColor="#CCC" height="100%" alignContent="flex-start" style={viewStyle}>
+    <Grid container spacing={1} padding={0.5} backgroundColor="#CCC" height="100%" alignContent="flex-start" style={{height: "100vh"}}>
       <Grid size={{ xs: 12 }} />
-      <Grid size={{ xs: 2 }} />
+      <Grid size={{ xs: 2 }} container alignContent="center" justifyContent="center">
+        <RecipePaper style={{ padding: "15px" }}>
+          <Button
+            fullWidth
+            onClick={onBack}
+          >
+            <ArrowBackIcon/>
+          </Button>
+        </RecipePaper>
+      </Grid>
       <Grid size={{ xs: 8 }}>
         <RecipePaper style={{ padding: "15px" }}>
           <Grid spacing={2} container>
-            <TextField
-              label="Recipe Name"
-              fullWidth
-              variant="outlined"
-              value={ctx.key.value}
-              onChange={e => ctx.key.set(e.target.value)}
-            />
             <TextField
               label="Recipe Name"
               fullWidth

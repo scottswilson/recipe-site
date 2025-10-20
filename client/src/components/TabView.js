@@ -11,8 +11,7 @@ import SwipeableViews from 'react-swipeable-views';
 import RecipeList from "./RecipeList"
 import Ingredients from "./Ingredients"
 import Procedure from "./Procedure"
-import EditRecipe from "./EditRecipe/EditRecipe"
-import {getEmptyRecipe} from "./Common"
+import {getEmptyRecipe, sampleRecipes} from "./Common"
 
 function TabView(props) {
   const { ctx } = props;
@@ -24,13 +23,13 @@ function TabView(props) {
     };
   };
 
-  const [tab, setTab] = useState(0);
 
   const onNewTab = (e, newValue) => {
-    setTab(newValue);
+    ctx.tab.set(newValue);
   };
+
   const onNewTabSwipe = (newValue) => {
-    setTab(newValue);
+    ctx.tab.set(newValue);
   };
 
   const selectedRecipe = ctx.recipes.value.filter((recipe) => {
@@ -46,25 +45,22 @@ function TabView(props) {
     <Box>
       <AppBar position="static" style={barStyle}>
         <Tabs
-          value={tab}
+          value={ctx.tab.value}
           onChange={onNewTab}
           indicatorColor="secondary"
           textColor="inherit"
           variant="fullWidth"
           aria-label="full width tabs example"
-          valie={tab}
         >
           <Tab label="Recipes" {...a11yProps(0)} />
           <Tab label="Ingredients" {...a11yProps(1)} />
           <Tab label="Steps" {...a11yProps(2)} />
-          <Tab label="Edit" {...a11yProps(3)} />
         </Tabs>
       </AppBar>
-      <SwipeableViews index={tab} onChangeIndex={onNewTabSwipe}>
-        <RecipeList ctx={ctx} setTab={setTab} />
-        <Ingredients recipe={selectedRecipe} />
-        <Procedure recipe={selectedRecipe} />
-        <EditRecipe setTab={setTab} recipe={selectedRecipe} ctx={ctx}/>
+      <SwipeableViews index={ctx.tab.value} onChangeIndex={onNewTabSwipe}>
+        <RecipeList ctx={ctx}/>
+        <Ingredients ctx={ctx} recipe={selectedRecipe} />
+        <Procedure ctx={ctx} recipe={selectedRecipe} />
       </SwipeableViews>
 
     </Box>

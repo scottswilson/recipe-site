@@ -3,12 +3,13 @@ const db = require('../db');
 require('dotenv').config();
 const { v4: uuidv4 } = require('uuid');
 
-const SECRET = process.env.SECRET;
+const MAX_SIZE = 10000;
+const MAX_IMAGE_SIZE = 20000;
 
-updateRecipeImpl = (res, field, id, datum) => {
-  const query = `UPDATE recipes SET ${field} = ? WHERE id = ?`;
+updateRecipeImpl = (res, field, id, ownerId, datum) => {
+  const query = `UPDATE recipes SET ${field} = ? WHERE (id = ? AND ownerId = ?)`;
 
-  db.run(query, [datum, id], function (err) {
+  db.run(query, [datum, id, ownerId], function (err) {
     if (err) {
       console.error(err.message);
       return res.status(500).json({ error: 'Failed to update recipe' });
@@ -23,14 +24,8 @@ updateRecipeImpl = (res, field, id, datum) => {
 };
 
 validateImpl = (req) => {
-  const { key, id } = req.body;
-
-  if (!key || !id) {
+  if (!req.body.id) {
     return 'Missing fields';
-  }
-
-  if (key != SECRET) {
-    return 'Invalid data';
   }
 };
 
@@ -42,96 +37,96 @@ function safeParse(value) {
   }
 }
 
-module.exports = app => {
-  app.post('/api/v1/recipeName', (req, res) => {
-    const error = validateImpl(req);
-    if (error) {
-      return res.status(400).json({ error });
-    }
+function isAuthenticated(req, res, next) {
+  if (req.session.userId) {
+    return next();
+  }
+  res.status(401).json({ message: 'Unauthorized' });
+}
 
+module.exports = app => {
+  app.post('/api/v1/recipeName', isAuthenticated, (req, res) => {
     const { id, name } = req.body;
     if (!id || !name) {
       return res.status(400).json({ error: 'Missing fields' });
     }
 
-    updateRecipeImpl(res, "name", id, name);
+    if (name.length > MAX_SIZE) {
+      return res.status(400).json({ error: 'Too big' });
+    }
+
+    updateRecipeImpl(res, "name", id, req.session.userId, name);
 
   });
 
-  app.post('/api/v1/servings', (req, res) => {
-    const error = validateImpl(req);
-    if (error) {
-      return res.status(400).json({ error });
-    }
-
+  app.post('/api/v1/servings', isAuthenticated, (req, res) => {
     const { id, servings } = req.body;
     if (!id || !servings) {
       return res.status(400).json({ error: 'Missing fields' });
     }
 
-    updateRecipeImpl(res, "servings", id, servings);
+    if (servings > MAX_SIZE) {
+      return res.status(400).json({ error: 'Too big' });
+    }
+    
+    updateRecipeImpl(res, "servings", id, req.session.userId, servings);
   });
 
-  app.post('/api/v1/ingredients', (req, res) => {
-    const error = validateImpl(req);
-    if (error) {
-      return res.status(400).json({ error });
-    }
-
+  app.post('/api/v1/ingredients', isAuthenticated, (req, res) => {
     const { id, ingredients } = req.body;
     if (!id || !ingredients) {
       return res.status(400).json({ error: 'Missing fields' });
     }
 
-    updateRecipeImpl(res, "ingredients", id, JSON.stringify(ingredients));
-  });
-
-  app.post('/api/v1/procedure', (req, res) => {
-    const error = validateImpl(req);
-    if (error) {
-      return res.status(400).json({ error });
+    if (JSON.stringify(ingredients).length > MAX_SIZE) {
+      return res.status(400).json({ error: 'Too big' });
     }
 
+    updateRecipeImpl(res, "ingredients", id, req.session.userId, JSON.stringify(ingredients));
+  });
+
+  app.post('/api/v1/procedure', isAuthenticated, (req, res) => {
     const { id, procedure } = req.body;
     if (!id || !procedure) {
       return res.status(400).json({ error: 'Missing fields' });
     }
 
-    updateRecipeImpl(res, "procedure", id, JSON.stringify(procedure));
-  });
-
-  app.post('/api/v1/tags', (req, res) => {
-    const error = validateImpl(req);
-    if (error) {
-      return res.status(400).json({ error });
+    if (JSON.stringify(procedure).length > MAX_SIZE) {
+      return res.status(400).json({ error: 'Too big' });
     }
 
+    updateRecipeImpl(res, "procedure", id, req.session.userId, JSON.stringify(procedure));
+  });
+
+  app.post('/api/v1/tags', isAuthenticated, (req, res) => {
     const { id, tags } = req.body;
     if (!id || !tags) {
       return res.status(400).json({ error: 'Missing fields' });
     }
 
-    updateRecipeImpl(res, "tags", id, JSON.stringify(tags));
-  });
-
-  app.post('/api/v1/image', (req, res) => {
-    const error = validateImpl(req);
-    if (error) {
-      return res.status(400).json({ error });
+    if (JSON.stringify(tags).length > MAX_SIZE) {
+      return res.status(400).json({ error: 'Too big' });
     }
 
+    updateRecipeImpl(res, "tags", id, req.session.userId, JSON.stringify(tags));
+  });
+
+  app.post('/api/v1/image', isAuthenticated, (req, res) => {
     const { id, image } = req.body;
     if (!id || !image) {
       return res.status(400).json({ error: 'Missing fields' });
     }
 
-    updateRecipeImpl(res, "image", id, image);
+    if (image.length > MAX_IMAGE_SIZE) {
+      return res.status(400).json({ error: 'Too big' });
+    }
+
+    updateRecipeImpl(res, "image", id, req.session.userId, image);
   });
 
   // POST a new user
-  app.post('/api/v1/newRecipe', (req, res) => {
+  app.post('/api/v1/newRecipe', isAuthenticated, (req, res) => {
     const {
-      key,
       name,
       servings,
       ingredients,
@@ -140,12 +135,10 @@ module.exports = app => {
       image,
     } = req.body;
 
-    if (key != SECRET) return res.status(400).json({ error: 'Invalid data' });
-
     const id = uuidv4(); // generate UUID
     const stmt = db.prepare(`
-      INSERT INTO recipes (id, name, servings, ingredients, procedure, tags, image)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO recipes (id, name, servings, ingredients, procedure, tags, image, ownerId)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     stmt.run(
@@ -156,6 +149,7 @@ module.exports = app => {
       JSON.stringify(procedure),
       JSON.stringify(tags),
       image,
+      req.session.userId,
       (err) => {
         if (err) {
           console.error(err);
@@ -169,24 +163,18 @@ module.exports = app => {
     stmt.finalize();
   });
 
-  app.post('/api/v1/deleteRecipe', (req, res) => {
-    const {
-      key,
-      id,
-    } = req.body;
-
-    if (key != SECRET) return res.status(400).json({ error: 'Invalid data' });
-
-    const stmt = db.prepare('DELETE FROM recipes WHERE id = ?');
+  app.post('/api/v1/deleteRecipe', isAuthenticated, (req, res) => {
+    const stmt = db.prepare('DELETE FROM recipes WHERE (id = ? AND ownerId = ?)');
 
     stmt.run(
-      id,
+      req.body.id,
+      req.session.userId,
       (err) => {
         if (err) {
           console.error(err);
           res.status(500).json({ error: 'Failed to delete recipe' });
         } else {
-          res.status(201).json({ message: 'Recipe deleted', id });
+          res.status(201).json({ message: 'Recipe deleted', id: req.body.id });
         }
       }
     );
@@ -194,10 +182,12 @@ module.exports = app => {
     stmt.finalize();
   });
 
-  app.get('/api/v1/recipes', (req, res) => {
-    const sql = 'SELECT * FROM recipes';
+  app.get('/api/v1/recipes', isAuthenticated, (req, res) => {
+    const sql = 'SELECT * FROM recipes WHERE (ownerId = ?)';
 
-    db.all(sql, [], (err, rows) => {
+    db.all(sql, [
+      req.session.userId,
+    ], (err, rows) => {
       if (err) {
         console.error('Failed to fetch recipes:', err);
         res.status(500).json({ error: 'Database error' });

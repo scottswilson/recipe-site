@@ -1,17 +1,29 @@
 import { useState, useEffect } from 'react';
-import TabView from "./components/TabView.js"
-import LoginPage from "./components/Login.js"
+import TabView from "./components/TabView"
+import LoginPage from "./components/Login"
+import RegisterPage from "./components/Register"
 import { sampleRecipes } from "./components/Common"
 import {
+  State,
   getRecipesSchema,
 } from "./components/Schema"
+import EditRecipe from './components/EditRecipe/EditRecipe.js';
+
+
+import Collapse from '@mui/material/Collapse';
+
+function LoadingPage(props) {
+  return (
+    <p>Loading...</p>
+  )
+}
 
 function App() {
 
   const [recipes, setRecipes] = useState(sampleRecipes);
   const [id, setId] = useState("");
-  const [key, setKey] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [state, setState] = useState(State.INIT);
+  const [tab, setTab] = useState(0);
 
   const ctx = {
     recipes: {
@@ -22,27 +34,44 @@ function App() {
       value: id,
       set: setId,
     },
-    key: {
-      value: key,
-      set: setKey,
+    state: {
+      value: state,
+      set: setState,
     },
-    loggedIn: {
-      value: loggedIn,
-      set: setLoggedIn,
+    tab: {
+      value: tab,
+      set: setTab,
     },
   };
 
   useEffect(() => {
-    getRecipesSchema(ctx);
+    const onSuccess = () => {
+      setState(State.VIEW);
+    };
+    const onFail = () => {
+      setState(State.LOGIN);
+    };
+    getRecipesSchema(ctx, onSuccess, onFail);
   }, []);
+
 
   return (
     <>
-      {loggedIn ? (
-        <TabView ctx={ctx} />
-      ) : (
+      <Collapse in={state == State.LOGIN} unmountOnExit >
         <LoginPage ctx={ctx} />
-      )}
+      </Collapse>
+      <Collapse in={state == State.REGISTER} unmountOnExit >
+        <RegisterPage ctx={ctx} />
+      </Collapse>
+      <Collapse in={state == State.VIEW} unmountOnExit >
+        <TabView ctx={ctx} />
+      </Collapse>
+      <Collapse in={state == State.EDIT} unmountOnExit >
+        <EditRecipe ctx={ctx} />
+      </Collapse>
+      <Collapse in={state == State.INIT} unmountOnExit >
+        <LoadingPage ctx={ctx} />
+      </Collapse>
     </>
   );
 }
