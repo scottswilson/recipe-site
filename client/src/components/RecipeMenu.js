@@ -62,7 +62,7 @@ export default function RecipeMenu(props) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        style={{ height: "100%" }}
+        style={{ height: "100%", minWidth:"0px"}}
         fullWidth
       >
         <MenuIcon />
