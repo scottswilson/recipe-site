@@ -6,6 +6,7 @@ const recipe = require("./RecipeRoutes");
 
 const app = express();
 
+app.set('trust proxy', 1); // trust first proxy
 app.use(express.json());
 app.use(cors({
   origin: 'http://localhost:3000', // Or your React dev server
