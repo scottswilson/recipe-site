@@ -92,12 +92,10 @@ const RegisterPage = (props) => {
       setBusy(false);
       if (error.response) {
         setErrors({
-          ...errors,
           generic: error.response.data.error || "error",
         });
       } else {
         setErrors({
-          ...errors,
           generic: 'Network error',
         });
       }

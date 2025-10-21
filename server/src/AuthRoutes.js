@@ -5,6 +5,7 @@ const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const SECRET = process.env.SECRET;
+const IS_OPEN_TO_NEW_ACCOUNTS = process.env.IS_OPEN_TO_NEW_ACCOUNTS === 'true';
 const SALT_ROUNDS = 10;
 
 const DATABASE_ERROR = { error: 'Database error' }
@@ -23,7 +24,7 @@ const loginLimiter = rateLimit({
   max: 5, // Limit each IP to 5 login requests per `window` 
   message: {
     status: 429,
-    error: "Too many login attempts. Please try again in 2 minutes.",
+    error: "Too many requests. Please try again in 2 minutes.",
   },
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false,  // Disable the `X-RateLimit-*` headers
@@ -35,7 +36,7 @@ module.exports = app => {
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // true in production with HTTPS
+      secure: true, // true in production with HTTPS
       httpOnly: true,
       sameSite: 'lax',
       maxAge: 1000 * 60 * 60
@@ -43,6 +44,10 @@ module.exports = app => {
   }));
 
   app.post('/api/v1/register', loginLimiter, (req, res) => {
+    console.log(IS_OPEN_TO_NEW_ACCOUNTS)
+    if (!IS_OPEN_TO_NEW_ACCOUNTS) {
+      return res.status(500).json({ error: 'Ask the website owner to join.' });
+    }
     const { user, pass, key } = req.body;
 
     if (key != SECRET) {
@@ -72,8 +77,6 @@ module.exports = app => {
 
   app.post('/api/v1/login', loginLimiter, (req, res) => {
     const { user, pass } = req.body;
-
-    console.log(user, pass);
 
     const sql = 'SELECT * FROM users WHERE user = ?';
 
@@ -117,7 +120,6 @@ module.exports = app => {
 
   app.get('/api/v1/logout', (req, res) => {
     const user = req.session.userId;
-    console.log(req.session);
     req.session.destroy(err => {
       if (err) {
         return res.status(500).json({ message: 'Logout failed' });

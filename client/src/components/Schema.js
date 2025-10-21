@@ -274,7 +274,6 @@ export const loginSchema = (ctx, info, cbSuccess, cbFailed) => {
     })
     .catch(error => {
       cbFailed(error);
-      console.log(error);
     });
 };
 
@@ -286,7 +285,6 @@ export const logoutSchema = (ctx) => {
       ctx.state.set(State.LOGIN);
     })
     .catch(error => {
-      console.log(error);
     });
 };
 
@@ -299,7 +297,6 @@ export const registerSchema = (ctx, info, cbSuccess, cbFailed) => {
     })
     .catch(error => {
       cbFailed(error);
-      console.log(error);
     });
 };
 
@@ -312,6 +309,5 @@ export const dashboardSchema = (ctx) => {
     })
     .catch(error => {
       ctx.loggedIn.set(false);
-      console.log(error);
     });
 };

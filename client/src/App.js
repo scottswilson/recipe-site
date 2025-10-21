@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+
 import TabView from "./components/TabView"
+import LoadingPage from "./components/LoadingPage"
 import LoginPage from "./components/Login"
 import RegisterPage from "./components/Register"
-import { sampleRecipes } from "./components/Common"
 import {
   State,
   getRecipesSchema,
@@ -12,15 +13,9 @@ import EditRecipe from './components/EditRecipe/EditRecipe.js';
 
 import Collapse from '@mui/material/Collapse';
 
-function LoadingPage(props) {
-  return (
-    <p>Loading...</p>
-  )
-}
 
 function App() {
-
-  const [recipes, setRecipes] = useState(sampleRecipes);
+  const [recipes, setRecipes] = useState([]);
   const [id, setId] = useState("");
   const [state, setState] = useState(State.INIT);
   const [tab, setTab] = useState(0);
